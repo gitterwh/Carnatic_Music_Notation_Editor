@@ -1,0 +1,37 @@
+name: Auto-Generate Lesson Manifest
+on:
+  push:
+    paths:
+      - 'lessons/**.json'
+      - '!lessons/manifest.json'
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Generate manifest.json
+        run: |
+          cd lessons
+          echo "Generating manifest..."
+          # This script loops through all JSONs and extracts metadata into the manifest
+          for f in *.json; do
+            if [ "$f" != "manifest.json" ]; then
+              cat "$f" | jq --arg fname "$f" '. | {file: $fname, title: (.titles // {en: .title, te: .title}), type: .compType, raga: (.ragas.en // .raga // "")}'
+            fi
+          done | jq -s '.' > manifest.json
+
+      - name: Commit and Push Manifest
+        run: |
+          git config user.name "Carnatic-Bot"
+          git config user.email "bot@carnaticstudio.com"
+          git add lessons/manifest.json
+          if git commit -m "Auto-update lesson manifest [skip ci]"; then
+            git push
+          else
+            echo "No changes to manifest"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
