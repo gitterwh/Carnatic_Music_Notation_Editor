@@ -10,7 +10,7 @@
         @media print {
             .no-print, footer, #toast, .action-terminal { display: none !important; }
             @page { margin: 0; size: portrait; }
-            body { background: white; color: black; padding: 1.2cm; margin: 0; }
+            body { background: white; color: black; padding: 1.2cm; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .print-sheet { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
             .tile-cell { padding: 4px !important; min-height: 48px !important; }
         }
