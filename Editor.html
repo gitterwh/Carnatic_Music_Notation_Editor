@@ -105,6 +105,8 @@
                     <label id="lblTalaSelect" class="block text-xs font-bold text-slate-600 uppercase mb-1">Suladi Sapta Talas</label>
                     <select id="talaSelect" onchange="onTalaDropdownChange()" class="w-full h-9 block rounded-lg border border-slate-300 px-2 bg-white text-xs font-medium focus:outline-none text-slate-900 focus:ring-1 focus:ring-indigo-500">
                         <option value="adi" id="optAdi">Adi Tala (8 Beats)</option>
+                        <option value="varna_adi" id="optVarnaAdi">Adi Tala (8 x 2 Beats)</option>
+                        <option value="adi_double" id="optAdiDouble">Adi Tala ( 8 Beats, two per row)</option>
                         <option value="dhruva" id="optDhruva">Dhruva Tala (14 Beats)</option>
                         <option value="matya" id="optMatya">Matya Tala (10 Beats)</option>
                         <option value="rupaka" id="optRupaka" selected>Rupaka Tala (6 Beats)</option>
@@ -266,6 +268,8 @@
 
         const talaBlueprints = {
             adi:     { beats: 8,  bars: [4, 6],     en: "Adi Tala",     te: "ఆది తాళం" },
+            varna_adi: { beats: 16, bars: [8, 12],   en: "Adi Tala (8 x 2 Beats)", te: "ఆది తాళం (8 x 2 క్రియలు)" },
+            adi_double: { beats: 16, bars: [4, 6, 8, 12, 14], en: "Adi Tala ( 8 Beats, two per row)", te: "ఆది తాళం (8 క్రియలు, వరుసకు రెండు)" },
             dhruva:  { beats: 14, bars: [4, 6, 10], en: "Dhruva Tala",  te: "ధ్రువ తాళం" },
             matya:   { beats: 10, bars: [4, 6],     en: "Matya Tala",   te: "మఠ్య తాళం" },
             rupaka:  { beats: 6,  bars: [2],        en: "Rupaka Tala",  te: "రూపక తాళం" },
@@ -290,6 +294,8 @@
                 lblSwaraInput: "Swaras Notation Text", 
                 lblSahityaInput: "Sahitya Lyrics Text",
                 optAdi: "Adi Tala (8 Beats)",
+                optVarnaAdi: "Adi Tala (8 x 2 Beats)",
+                optAdiDouble: "Adi Tala ( 8 Beats, two per row)",
                 optDhruva: "Dhruva Tala (14 Beats)", 
                 optMatya: "Matya Tala (10 Beats)", 
                 optRupaka: "Rupaka Tala (6 Beats)",
@@ -316,6 +322,8 @@
                 lblSwaraInput: "స్వర సాహిత్యం టెక్స్ట్", 
                 lblSahityaInput: "సాహిత్య వచనం",
                 optAdi: "ఆది తాళం (8 క్రియలు)",
+                optVarnaAdi: "ఆది తాళం (8 x 2 క్రియలు)",
+                optAdiDouble: "ఆది తాళం (8 క్రియలు, వరుసకు రెండు)",
                 optDhruva: "ధ్రువ తాళం (14 క్రియలు)", 
                 optMatya: "మఠ్య తాళం (10 క్రియలు)", 
                 optRupaka: "రూపక తాళం (6 క్రియలు)",
