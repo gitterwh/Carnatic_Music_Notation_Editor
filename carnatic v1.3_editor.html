@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carnatic Studio Editor V1.3</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Printing optimizations to display clean high-contrast notation layout templates */
+        @media print {
+            .no-print, footer, #toast, .action-terminal { display: none !important; }
+            @page { margin: 0; size: portrait; }
+            body { background: white; color: black; padding: 1.2cm; margin: 0; }
+            .print-sheet { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
+            .tile-cell { padding: 4px !important; min-height: 48px !important; }
+        }
+        .notation-font { font-family: 'Courier New', Courier, monospace; }
+        .sthana-btn.active { background-color: #4f46e5; color: white; border-color: #4f46e5; }
+        
+        /* Centralized geometric octave decorators */
+        .lower-octave { position: relative; display: inline-block; }
+        .lower-octave::after { content: ""; position: absolute; bottom: -3px; left: 50%; transform: translateX(-50%); background-color: currentColor; border-radius: 50%; width: 4px; height: 4px; }
+        
+        .upper-octave { position: relative; display: inline-block; }
+        .upper-octave::after { content: ""; position: absolute; top: -3px; left: 50%; transform: translateX(-50%); background-color: currentColor; border-radius: 50%; width: 4px; height: 4px; }
+        
+        /* Architectural speed underlines matching classic Duritha Kalam tiers */
+        .speed-line-1 { border-bottom: 1.5px solid #000; padding-bottom: 1px; }
+        .speed-line-2 { border-bottom: 3.5px double #000; padding-bottom: 1px; }
+        .speed-line-3 { border-bottom: 4.5px double #000; border-top: 1px solid #000; padding-bottom: 2px; }
+        
+        /* Standard Tala Anga border separations */
+        .anga-break { border-right: 2px solid #64748b !important; }
+        .avartham-end { border-right: 5px double #0f172a !important; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 p-3 md:p-6">
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print max-h-[95vh] overflow-y-auto">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">🎼 Publishing Desk V1.2</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Configure scales and manage notation engines.</p>
+                </div>
+                <div class="relative inline-block text-left">
+                    <select id="fileManagerSelect" onchange="handleFileAction(this.value)" class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-semibold py-1.5 px-2 rounded-lg cursor-pointer focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <option value="" disabled selected>📁 File Manager</option>
+                        <option value="new">📄 New File (Reset)</option>
+                        <option value="download">📥 Download JSON File</option>
+                        <option value="upload">📤 Open JSON File</option>
+                    </select>
+                    <input type="file" id="hiddenJsonFileInput" accept=".json" onchange="processLocalFileJson(this)" class="hidden">
+                </div>
+            </div>
+
+            <div class="flex gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                <button onclick="undo()" id="btnUndo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟲ Undo</button>
+                <button onclick="redo()" id="btnRedo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟳ Redo</button>
+            </div>
+
+            <div>
+                <label id="lblLanguageHeader" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Global Sheet Language / భాష</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="setLanguage('en')" id="lang-en" class="py-1.5 px-3 rounded-lg border text-xs font-medium bg-white text-slate-700 border-slate-200 cursor-pointer">English</button>
+                    <button onclick="setLanguage('te')" id="lang-te" class="py-1.5 px-3 rounded-lg border text-xs font-medium bg-slate-800 text-white border-slate-800 cursor-pointer">తెలుగు</button>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 space-y-3">
+                <span id="lblCompHeaders" class="block text-xs font-bold text-indigo-950 uppercase tracking-wider">Composition Headers</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label id="lblFormTitle" class="block text-[10px] font-bold text-slate-500 uppercase">Song Title</label>
+                        <input id="inputTitle" type="text" oninput="handleInputChange();" class="w-full border rounded-lg p-1.5 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="e.g. Lambodara">
+                    </div>
+                    <div>
+                        <label id="lblFormComposer" class="block text-[10px] font-bold text-slate-500 uppercase">Composer</label>
+                        <input id="inputComposer" type="text" oninput="handleInputChange();" class="w-full border rounded-lg p-1.5 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="e.g. Purandara Dasa">
+                    </div>
+                    <div>
+                        <label id="lblFormRaga" class="block text-[10px] font-bold text-slate-500 uppercase">Raga Name</label>
+                        <input id="inputRagaName" type="text" oninput="handleInputChange();" class="w-full border rounded-lg p-1.5 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="e.g. Mayamalavagowla">
+                    </div>
+                    <div>
+                        <label id="lblFormTala" class="block text-[10px] font-bold text-slate-500 uppercase">Tala Name</label>
+                        <input id="inputTalaName" type="text" oninput="handleInputChange();" class="w-full border rounded-lg p-1.5 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500" placeholder="e.g. Rupaka Tala">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span id="lblMatrixTitle" class="block text-xs font-bold text-slate-700">16 Swarasthanas Scale Settings</span>
+                    <p id="lblMatrixDesc" class="text-[10px] text-slate-400">Map notes, Arohana, and Avarohana parameters.</p>
+                </div>
+                <button onclick="toggleModal(true)" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-200 font-semibold py-1.5 px-3 rounded-lg text-xs transition flex items-center gap-1 cursor-pointer">
+                    ⚙️ Setup Matrix
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label id="lblTalaSelect" class="block text-xs font-bold text-slate-600 uppercase mb-1">Suladi Sapta Talas</label>
+                    <select id="talaSelect" onchange="onTalaDropdownChange()" class="w-full h-9 block rounded-lg border border-slate-300 px-2 bg-white text-xs font-medium focus:outline-none text-slate-900 focus:ring-1 focus:ring-indigo-500">
+                        <option value="adi" id="optAdi">Adi Tala (8 Beats)</option>
+                        <option value="dhruva" id="optDhruva">Dhruva Tala (14 Beats)</option>
+                        <option value="matya" id="optMatya">Matya Tala (10 Beats)</option>
+                        <option value="rupaka" id="optRupaka" selected>Rupaka Tala (6 Beats)</option>
+                        <option value="jhampa" id="optJhampa">Jhampa Tala (10 Beats)</option>
+                        <option value="triputa" id="optTriputa">Triputa Tala (7 Beats)</option>
+                        <option value="ata" id="optAta">Ata Tala (14 Beats)</option>
+                        <option value="eka" id="optEka">Eka Tala (4 Beats)</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label id="lblFormatSelect" class="block text-xs font-bold text-slate-600 uppercase mb-1">Structural Mode</label>
+                    <select id="compositionType" onchange="handleInputChange();" class="w-full h-9 block rounded-lg border border-slate-300 px-2 bg-white text-xs font-medium focus:outline-none text-slate-900 focus:ring-1 focus:ring-indigo-500">
+                        <option value="geetham" id="optGeetham">Geetham Mode (Show Lyrics)</option>
+                        <option value="varnam" id="optVarnam">Varnam Mode</option>
+                        <option value="krithi" id="optKrithi">Krithi Mode</option>
+                        <option value="exercise" id="optExercise">Exercise Mode (Hide Lyrics)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label id="lblSwaraInput" class="block text-xs font-bold text-slate-600 uppercase">Swaras Notation Text</label>
+                        <span class="text-[10px] text-indigo-600 font-mono bg-indigo-50 px-1 py-0.5 rounded">&lt;p&gt;, &lt;ap&gt;, &lt;ch&gt;, &lt;chi&gt; sections</span>
+                    </div>
+                    <textarea id="swaraInput" rows="6" oninput="handleInputChange();" class="w-full p-2.5 border border-slate-300 rounded-xl notation-font text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type swaras... Speed tiers: ql, qll, qlll ... e. Breaks: b. Octaves: u, l. Extension: c or ,"></textarea>
+                </div>
+                <div>
+                    <label id="lblSahityaInput" class="block text-xs font-bold text-slate-600 uppercase mb-1">Sahitya Lyrics Text</label>
+                    <textarea id="sahityaInput" inputmode="url" rows="5" oninput="handleInputChange();" class="w-full p-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type lyric syllables matching swara tokens..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="saveToLocal()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">💾 Save Sheet</button>
+                <button onclick="triggerPrintWithPreCheck()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">🖨️ Export PDF</button>
+            </div>
+            <div id="toast" class="text-center text-xs font-semibold italic hidden p-1.5 rounded-lg"></div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 print-sheet flex flex-col justify-between">
+            <div>
+                <div class="border-b-4 border-slate-900 pb-4 mb-6 text-center space-y-2 relative">
+                    <h2 id="pubMainTitle" contenteditable="true" onblur="syncViewerToTextareas()" class="text-3xl font-serif font-black text-slate-900 tracking-wide uppercase focus:bg-slate-50 focus:outline-none rounded px-2"></h2>
+                    
+                    <div class="flex justify-center items-center gap-1 text-[10px] font-sans tracking-widest text-slate-400 font-bold uppercase">
+                        <span id="pubLabelComposer">COMPOSER</span>
+                    </div>
+                    <p id="pubComposer" contenteditable="true" onblur="syncViewerToTextareas()" class="text-xs font-sans tracking-wide text-slate-600 font-semibold uppercase focus:bg-slate-50 focus:outline-none rounded inline-block px-4"></p>
+                    
+                    <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-100 text-xs font-serif text-slate-700 font-medium max-w-md mx-auto">
+                        <div class="text-left">
+                            <span id="lblRaga">రాగం:</span> 
+                            <span id="metaRagaName" contenteditable="true" onblur="syncViewerToTextareas()" class="font-sans font-normal ml-1 focus:bg-slate-50 focus:outline-none rounded px-1"></span>
+                        </div>
+                        <div class="text-right">
+                            <span id="lblTala">తాళం:</span> 
+                            <span id="metaTalaName" contenteditable="true" onblur="syncViewerToTextareas()" class="font-sans font-normal ml-1 focus:bg-slate-50 focus:outline-none rounded px-1"></span>
+                        </div>
+                    </div>
+                <div id="metaScaleText" class="text-[11px] font-mono text-black font-bold pt-1">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <div id="outputSheet" class="space-y-4 min-w-[600px] lg:min-w-0"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="ragaModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-lg p-5 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">⚙️ Configure Swarasthanas</h3>
+                    <p class="text-xs text-slate-400">Manage precise intervals and system templates.</p>
+                </div>
+                <select id="ragaPreset" onchange="loadPresetRaga()" class="rounded border p-1 text-[11px] bg-slate-50 font-medium focus:outline-none text-slate-900 h-8 block">
+                    <option value="custom" selected>Custom Scale</option>
+                    <option value="Mayamalavagowla">Mayamalavagowla</option>
+                    <option value="Sankarabharanam">Sankarabharanam</option>
+                    <option value="Kalyani">Kalyani</option>
+                    <option value="Thodi">Thodi</option>
+                </select>
+            </div>
+
+            <div class="space-y-2 text-[11px]">
+                <div class="flex items-center gap-2"><span class="w-6 font-bold text-slate-500 text-right">R:</span>
+                    <div class="grid grid-cols-3 gap-1 flex-1">
+                        <button id="sthana-R1" onclick="toggleSthana('R', 'R1')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">R1 (Shuddha)</button>
+                        <button id="sthana-R2" onclick="toggleSthana('R', 'R2')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">R2 (Chatusruthi)</button>
+                        <button id="sthana-R3" onclick="toggleSthana('R', 'R3')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">R3 (Shatsruthi)</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2"><span class="w-6 font-bold text-slate-500 text-right">G:</span>
+                    <div class="grid grid-cols-3 gap-1 flex-1">
+                        <button id="sthana-G1" onclick="toggleSthana('G', 'G1')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">G1 (Shuddha)</button>
+                        <button id="sthana-G2" onclick="toggleSthana('G', 'G2')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">G2 (Sadharana)</button>
+                        <button id="sthana-G3" onclick="toggleSthana('G', 'G3')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">G3 (Antara)</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2"><span class="w-6 font-bold text-slate-500 text-right">M:</span>
+                    <div class="grid grid-cols-3 gap-1 flex-1">
+                        <button id="sthana-M1" onclick="toggleSthana('M', 'M1')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">M1 (Shuddha)</button>
+                        <button id="sthana-M2" onclick="toggleSthana('M', 'M2')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">M2 (Prati)</button>
+                        <div class="bg-slate-50 border border-dashed border-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2"><span class="w-6 font-bold text-slate-500 text-right">D:</span>
+                    <div class="grid grid-cols-3 gap-1 flex-1">
+                        <button id="sthana-D1" onclick="toggleSthana('D', 'D1')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">D1 (Shuddha)</button>
+                        <button id="sthana-D2" onclick="toggleSthana('D', 'D2')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">D2 (Chatusruthi)</button>
+                        <button id="sthana-D3" onclick="toggleSthana('D', 'D3')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">D3 (Shatsruthi)</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2"><span class="w-6 font-bold text-slate-500 text-right">N:</span>
+                    <div class="grid grid-cols-3 gap-1 flex-1">
+                        <button id="sthana-N1" onclick="toggleSthana('N', 'N1')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">N1 (Shuddha)</button>
+                        <button id="sthana-N2" onclick="toggleSthana('N', 'N2')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">N2 (Kaisiki)</button>
+                        <button id="sthana-N3" onclick="toggleSthana('N', 'N3')" class="sthana-btn border bg-white p-1.5 rounded text-[10px] font-medium transition cursor-pointer">N3 (Kakali)</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-[10px]">
+                <div>
+                    <label class="font-bold text-slate-500 uppercase">Arohana Scale Text</label>
+                    <input id="arohanaInput" type="text" oninput="parseAndRender()" class="w-full border rounded p-1.5 bg-slate-50 font-mono text-slate-800" placeholder="e.g. S R1 G3 M1 P D1 N3 S'">
+                </div>
+                <div>
+                    <label class="font-bold text-slate-500 uppercase">Avarohana Scale Text</label>
+                    <input id="avarohanaInput" type="text" oninput="parseAndRender()" class="w-full border rounded p-1.5 bg-slate-50 font-mono text-slate-800" placeholder="e.g. S' N3 D1 P M1 G3 R1 S">
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-1">
+                <button onclick="toggleModal(false)" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2 px-6 rounded-xl text-xs transition shadow-sm cursor-pointer">
+                    Apply Scale
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'te';
+        
+        let metaTitles = { en: "", te: "" };
+        let metaComposers = { en: "", te: "" };
+        let metaRagas = { en: "", te: "" };
+        let metaTalas = { en: "", te: "" };
+
+        let undoStack = [];
+        let redoStack = [];
+        const maxHistorySize = 50; 
+
+        const talaBlueprints = {
+            adi:     { beats: 8,  bars: [4, 6],     en: "Adi Tala",     te: "ఆది తాళం" },
+            dhruva:  { beats: 14, bars: [4, 6, 10], en: "Dhruva Tala",  te: "ధ్రువ తాళం" },
+            matya:   { beats: 10, bars: [4, 6],     en: "Matya Tala",   te: "మఠ్య తాళం" },
+            rupaka:  { beats: 6,  bars: [2],        en: "Rupaka Tala",  te: "రూపక తాళం" },
+            jhampa:  { beats: 10, bars: [7, 8],     en: "Jhampa Tala",  te: "ఝంప తాళం" },
+            triputa: { beats: 7,  bars: [3, 5],     en: "Triputa Tala", te: "త్రిపుట తాళం" },
+            ata:     { beats: 14, bars: [5, 10],    en: "Ata Tala",     te: "అట తాళం" },
+            eka:     { beats: 4,  bars: [],         en: "Eka Tala",     te: "ఏక తాళం" }
+        };
+
+        const uiTranslationPacks = {
+            en: {
+                lblLanguageHeader: "Global Sheet Language / భాష", 
+                lblCompHeaders: "Composition Headers",
+                lblFormTitle: "Song Title", 
+                lblFormComposer: "Composer", 
+                lblFormRaga: "Raga Name", 
+                lblFormTala: "Tala Name",
+                lblMatrixTitle: "16 Swarasthanas Scale Settings", 
+                lblMatrixDesc: "Map notes, Arohana, and Avarohana parameters.",
+                lblTalaSelect: "Suladi Sapta Talas", 
+                lblFormatSelect: "Structural Mode",
+                lblSwaraInput: "Swaras Notation Text", 
+                lblSahityaInput: "Sahitya Lyrics Text",
+                optAdi: "Adi Tala (8 Beats)",
+                optDhruva: "Dhruva Tala (14 Beats)", 
+                optMatya: "Matya Tala (10 Beats)", 
+                optRupaka: "Rupaka Tala (6 Beats)",
+                optJhampa: "Jhampa Tala (10 Beats)", 
+                optTriputa: "Triputa Tala (7 Beats)", 
+                optAta: "Ata Tala (14 Beats)", 
+                optEka: "Eka Tala (4 Beats)",
+                optGeetham: "Geetham Mode (Show Lyrics)", 
+                optVarnam: "Varnam Mode", 
+                optKrithi: "Krithi Mode", 
+                optExercise: "Exercise Mode (Hide Lyrics)"
+            },
+            te: {
+                lblLanguageHeader: "గ్లోబల్ షీట్ భాష", 
+                lblCompHeaders: "కూర్పు వివరాలు (హెడర్)",
+                lblFormTitle: "పాట పేరు / కీర్తన", 
+                lblFormComposer: "వాగ్గేయకారుడు", 
+                lblFormRaga: "రాగం పేరు", 
+                lblFormTala: "తాళం వివరాలు",
+                lblMatrixTitle: "16 స్వరస్థానాల మాతృక", 
+                lblMatrixDesc: "స్వరస్థానాలు మరియు ఆరోహణ/అవరోహణలను సెట్ చేయండి.",
+                lblTalaSelect: "సులాది సప్త తాళాలు", 
+                lblFormatSelect: "నిర్మాణ ఆకృతి",
+                lblSwaraInput: "స్వర సాహిత్యం టెక్స్ట్", 
+                lblSahityaInput: "సాహిత్య వచనం",
+                optAdi: "ఆది తాళం (8 క్రియలు)",
+                optDhruva: "ధ్రువ తాళం (14 క్రియలు)", 
+                optMatya: "మఠ్య తాళం (10 క్రియలు)", 
+                optRupaka: "రూపక తాళం (6 క్రియలు)",
+                optJhampa: "ఝంప తాళం (10 క్రియలు)", 
+                optTriputa: "త్రిపుట తాళం (7 క్రియలు)", 
+                optAta: "అట తాళం (14 క్రియలు)", 
+                optEka: "ఏక తాళం (4 క్రియలు)",
+                optGeetham: "గీతం మోడ్", 
+                optVarnam: "వర్ణం మోడ్", 
+                optKrithi: "కృతి మోడ్", 
+                optExercise: "అభ్యాస మోడ్ (సాహిత్యం దాచు)"
+            }
+        };
+
+        const structuralLabels = {
+            en: { raga: "Raga:", tala: "Tala:", composer: "Composer" },
+            te: { raga: "రాగం:", tala: "తాళం:", composer: "రచయిత" }
+        };
+
+        const sectionMap = {
+            en: { p: "Pallavi", ap: "Anupallavi", ch: "Charanam", chi: "Chittaswaram" },
+            te: { p: "పల్లవి", ap: "అనుపల్లవి", ch: "చరణం", chi: "చిట్టస్వరం" }
+        };
+
+        const scriptMap = {
+            en: { s: "S", r: "R", g: "G", m: "M", p: "P", d: "D", n: "N", comma: ",", semicolon: ";" },
+            te: { s: "స", r: "రి", g: "గ", m: "మ", p: "ప", d: "ద", n: "ని", comma: ",", semicolon: ";" }
+        };
+
+        const normalizationMap = {
+            "స": "s", "రి": "r", "గ": "g", "మ": "m", "ప": "p", "ద": "d", "ని": "n", "న": "n",
+            "s": "s", "r": "r", "g": "g", "m": "m", "p": "p", "d": "d", "n": "n", "c": ","
+        };
+
+        const ragaPresetsBlueprints = {
+            Mayamalavagowla: { R: 'R1', G: 'G3', M: 'M1', D: 'D1', N: 'N3' },
+            Sankarabharanam: { R: 'R2', G: 'G3', M: 'M1', D: 'D2', N: 'N3' },
+            Kalyani:         { R: 'R2', G: 'G3', M: 'M2', D: 'D2', N: 'N3' },
+            Thodi:           { R: 'R1', G: 'G2', M: 'M1', D: 'D1', N: 'N2' }
+        };
+
+        let selectedSthanas = { R: '', G: '', M: '', D: '', N: '' };
+
+        function toggleModal(show) {
+            const modal = document.getElementById('ragaModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function triggerToast(message, isSuccess = true) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.className = `text-center text-xs font-semibold italic p-1.5 rounded-lg ${isSuccess ? 'text-emerald-600 bg-emerald-50 border border-emerald-200' : 'text-rose-600 bg-rose-50 border border-rose-200'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function captureHistoryState() {
+            const currentStatePayload = {
+                titles: { ...metaTitles },
+                composers: { ...metaComposers },
+                ragas: { ...metaRagas },
+                talaNames: { ...metaTalas },
+                tala: document.getElementById('talaSelect').value,
+                compType: document.getElementById('compositionType').value,
+                swaras: document.getElementById('swaraInput').value,
+                sahitya: document.getElementById('sahityaInput').value,
+                selectedSthanas: { ...selectedSthanas },
+                arohana: document.getElementById('arohanaInput').value,
+                avarohana: document.getElementById('avarohanaInput').value,
+                ragaPreset: document.getElementById('ragaPreset').value,
+                lang: currentLanguage
+            };
+            const serialized = JSON.stringify(currentStatePayload);
+            if (undoStack.length > 0 && undoStack[undoStack.length - 1] === serialized) return;
+            undoStack.push(serialized);
+            if (undoStack.length > maxHistorySize) undoStack.shift();
+            redoStack = []; 
+            updateUndoRedoButtonsUI();
+        }
+
+        function undo() {
+            if (undoStack.length <= 1) return;
+            const current = undoStack.pop();
+            redoStack.push(current);
+            const targetedPreviousState = JSON.parse(undoStack[undoStack.length - 1]);
+            applyStatePayloadToWorkspace(targetedPreviousState);
+            updateUndoRedoButtonsUI();
+        }
+
+        function redo() {
+            if (redoStack.length === 0) return;
+            const nextStatePayload = JSON.parse(redoStack.pop());
+            undoStack.push(JSON.stringify(nextStatePayload));
+            applyStatePayloadToWorkspace(nextStatePayload);
+            updateUndoRedoButtonsUI();
+        }
+
+        function updateUndoRedoButtonsUI() {
+            document.getElementById('btnUndo').disabled = (undoStack.length <= 1);
+            document.getElementById('btnRedo').disabled = (redoStack.length === 0);
+        }
+
+        function applyStatePayloadToWorkspace(state) {
+            metaTitles = state.titles || { en: state.title || '', te: state.title || '' };
+            metaComposers = state.composers || { en: state.composer || '', te: state.composer || '' };
+            metaRagas = state.ragas || { en: state.raga || '', te: state.raga || '' };
+            metaTalas = state.talaNames || { en: state.talaName || '', te: state.talaName || '' };
+            
+            currentLanguage = state.lang || 'te';
+            document.getElementById('inputTitle').value = metaTitles[currentLanguage] || '';
+            document.getElementById('inputComposer').value = metaComposers[currentLanguage] || '';
+            document.getElementById('inputRagaName').value = metaRagas[currentLanguage] || '';
+            document.getElementById('inputTalaName').value = metaTalas[currentLanguage] || '';
+            document.getElementById('talaSelect').value = state.tala || 'rupaka';
+            document.getElementById('compositionType').value = state.compType || 'geetham';
+            document.getElementById('swaraInput').value = state.swaras || '';
+            document.getElementById('sahityaInput').value = state.sahitya || '';
+            document.getElementById('arohanaInput').value = state.arohana || '';
+            document.getElementById('avarohanaInput').value = state.avarohana || '';
+            document.getElementById('ragaPreset').value = state.ragaPreset || 'custom';
+            selectedSthanas = state.selectedSthanas || { R: '', G: '', M: '', D: '', N: '' };
+            updateSthanaButtonsUI();
+            syncInputsToVars();
+            parseAndRender(false);
+        }
+
+        function handleInputChange() {
+            syncInputsToVars();
+            parseAndRender(true);
+        }
+
+        function setLanguage(lang) {
+            syncInputsToVars();
+            currentLanguage = lang;
+            ['en', 'te'].forEach(l => {
+                const btn = document.getElementById(`lang-${l}`);
+                if (btn) btn.className = l === lang ? "py-1.5 px-3 rounded-lg border text-xs font-medium bg-slate-800 text-white border-slate-800 cursor-pointer" : "py-1.5 px-3 rounded-lg border text-xs font-medium bg-white text-slate-700 border-slate-200 cursor-pointer";
+            });
+            const pack = uiTranslationPacks[lang];
+            Object.keys(pack).forEach(id => {
+                const target = document.getElementById(id);
+                if (target) {
+                    if (target.tagName === "INPUT") target.placeholder = pack[id];
+                    else target.innerText = pack[id];
+                }
+            });
+            document.getElementById('inputTitle').value = metaTitles[lang] || '';
+            document.getElementById('inputComposer').value = metaComposers[lang] || '';
+            document.getElementById('inputRagaName').value = metaRagas[lang] || '';
+            document.getElementById('inputTalaName').value = metaTalas[lang] || '';
+            handleInputChange();
+        }
+
+        function handleFileAction(action) {
+            const fileMenu = document.getElementById('fileManagerSelect');
+            if (action === 'new') {
+                if(confirm("Create a clean sheet configuration? Unsaved modifications will be erased.")) {
+                    clearWorkspace();
+                    triggerToast("📄 Created new layout sheet");
+                }
+            } else if (action === 'download') {
+                exportSheetJsonToFile();
+            } else if (action === 'upload') {
+                document.getElementById('hiddenJsonFileInput').click();
+            }
+            fileMenu.value = ""; 
+        }
+
+        function onTalaDropdownChange() {
+            const currentTalaKey = document.getElementById('talaSelect').value;
+            document.getElementById('inputTalaName').value = talaBlueprints[currentTalaKey][currentLanguage];
+            handleInputChange();
+        }
+
+        function loadPresetRaga() {
+            const presetKey = document.getElementById('ragaPreset').value;
+            if (presetKey !== 'custom' && ragaPresetsBlueprints[presetKey]) {
+                selectedSthanas = { ...ragaPresetsBlueprints[presetKey] };
+                document.getElementById('inputRagaName').value = presetKey;
+                updateSthanaButtonsUI();
+                autoGenerateScaleText();
+                handleInputChange();
+            }
+        }
+
+        function syncInputsToVars() {
+            metaTitles[currentLanguage] = document.getElementById('inputTitle').value;
+            metaComposers[currentLanguage] = document.getElementById('inputComposer').value;
+            metaRagas[currentLanguage] = document.getElementById('inputRagaName').value;
+            metaTalas[currentLanguage] = document.getElementById('inputTalaName').value;
+        }
+
+        function syncViewerToTextareas() {
+            document.getElementById('inputTitle').value = document.getElementById('pubMainTitle').innerText;
+            document.getElementById('inputComposer').value = document.getElementById('pubComposer').innerText;
+            document.getElementById('inputRagaName').value = document.getElementById('metaRagaName').innerText;
+            document.getElementById('inputTalaName').value = document.getElementById('metaTalaName').innerText;
+            syncInputsToVars();
+            parseAndRender(true);
+        }
+
+        function toggleSthana(group, id) {
+            document.getElementById(`ragaPreset`).value = "custom";
+            selectedSthanas[group] = (selectedSthanas[group] === id) ? '' : id;
+            updateSthanaButtonsUI();
+            autoGenerateScaleText();
+            handleInputChange();
+        }
+
+        function updateSthanaButtonsUI() {
+            document.querySelectorAll('.sthana-btn').forEach(btn => btn.classList.remove('active'));
+            Object.values(selectedSthanas).forEach(id => {
+                if (id) {
+                    const el = document.getElementById(`sthana-${id}`);
+                    if (el) el.classList.add('active');
+                }
+            });
+        }
+
+        function autoGenerateScaleText() {
+            let aro = "S";
+            if(selectedSthanas.R) aro += " " + selectedSthanas.R;
+            if(selectedSthanas.G) aro += " " + selectedSthanas.G;
+            if(selectedSthanas.M) aro += " " + selectedSthanas.M;
+            aro += " P";
+            if(selectedSthanas.D) aro += " " + selectedSthanas.D;
+            if(selectedSthanas.N) aro += " " + selectedSthanas.N;
+            aro += " S'";
+            let ava = "S'";
+            if(selectedSthanas.N) ava += " " + selectedSthanas.N;
+            if(selectedSthanas.D) ava += " " + selectedSthanas.D;
+            ava += " P";
+            if(selectedSthanas.M) ava += " " + selectedSthanas.M;
+            if(selectedSthanas.G) ava += " " + selectedSthanas.G;
+            if(selectedSthanas.R) ava += " " + selectedSthanas.R;
+            ava += " S";
+            document.getElementById('arohanaInput').value = (aro === "S P S'") ? "" : aro;
+            document.getElementById('avarohanaInput').value = (ava === "S' P S") ? "" : ava;
+        }
+
+        function transliterateSwara(atom) {
+            if (!atom) return scriptMap[currentLanguage].comma;
+            let cleaner = atom.trim();
+            if (cleaner.toLowerCase() === 'b' || cleaner === ';') return scriptMap[currentLanguage].semicolon;
+            if (cleaner === ',' || cleaner === '-' || cleaner.toLowerCase() === 'c') return scriptMap[currentLanguage].comma;
+            let isLowerOctave = cleaner.startsWith('.') || cleaner.endsWith('.') || cleaner.toLowerCase().endsWith('l');
+            let isUpperOctave = cleaner.includes("'") || cleaner.includes('*') || cleaner.toLowerCase().endsWith('u');
+            let baseChar = cleaner.replace(/[\.\*'\s,uUlL]/g, '');
+            let lookupKey = baseChar.toLowerCase();
+            let coreNormalized = normalizationMap[lookupKey] || lookupKey;
+            let mapped = scriptMap[currentLanguage][coreNormalized] || baseChar;
+            if (isLowerOctave) return `<span class="lower-octave">${mapped}</span>`;
+            else if (isUpperOctave) return `<span class="upper-octave">${mapped}</span>`;
+            return `<span>${mapped}</span>`;
+        }
+
+        function parseBeatBlockToHTML(block) {
+            if (!block || block === ',' || block === '-' || block === '_' || block.toLowerCase() === 'c') {
+                return `<div class="text-black font-bold">${scriptMap[currentLanguage].comma}</div>`;
+            }
+            if (block.toLowerCase() === 'b' || block === ';') {
+                return `<div class="text-black font-bold">${scriptMap[currentLanguage].semicolon}</div>`;
+            }
+            
+            const atoms = block.match(/ql[l]*|e|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;cC]/g) || [block];
+            let cols = atoms.length === 2 ? "grid-cols-2 text-sm" : (atoms.length > 2 ? "grid-cols-4 text-xs tracking-tighter" : "grid-cols-1");
+            
+            let atomsHTML = atoms.filter(a => !['ql','qll','qlll','e'].includes(a)).map(a => `<div class="text-center font-bold relative">${transliterateSwara(a)}</div>`).join('');
+            let speedLevel = 0;
+            if (atoms.includes('ql')) speedLevel = 1;
+            if (atoms.includes('qll')) speedLevel = 2;
+            if (atoms.includes('qlll')) speedLevel = 3;
+
+            let content = `<div class="grid ${cols} gap-0.5 items-center justify-center w-full">${atomsHTML}</div>`;
+            if (speedLevel > 0) content = `<div class="speed-line-${speedLevel} w-full">${content}</div>`;
+            return content;
+        }
+
+        function tokenizeLineData(rawLineString, isSwaras = true) {
+            let trimmed = rawLineString.trim();
+            if (!trimmed) return [];
+            if (isSwaras && trimmed.startsWith('<') && trimmed.endsWith('>')) return [trimmed];
+            let regexPattern = /qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g;
+            let words = trimmed.split(/\s+/);
+            let unifiedTokens = [];
+            words.forEach(word => {
+                let segmentedAtoms = word.match(regexPattern);
+                if (segmentedAtoms) unifiedTokens.push(...segmentedAtoms);
+                else unifiedTokens.push(word);
+            });
+            if (!isSwaras) return unifiedTokens;
+
+            let grouped = [];
+            let currentGroup = [];
+            let inSpeed = false;
+            unifiedTokens.forEach(t => {
+                if (['ql', 'qll', 'qlll'].includes(t)) { inSpeed = true; currentGroup.push(t); }
+                else if (t === 'e') { currentGroup.push(t); grouped.push(currentGroup.join(' ')); currentGroup = []; inSpeed = false; }
+                else if (inSpeed) currentGroup.push(t);
+                else if (t === 'b') { if (grouped.length > 0) grouped[grouped.length-1] += ' b'; else grouped.push('b'); }
+                else grouped.push(t);
+            });
+            return grouped;
+        }
+
+        function transliterateScale(str) {
+            if (!str) return "";
+            return str.split(/\s+/).filter(t => t.trim() !== "").map(token => {
+                let cleaner = token.trim();
+                let isLowerOctave = cleaner.startsWith('.') || cleaner.endsWith('.') || cleaner.toLowerCase().endsWith('l');
+                let isUpperOctave = cleaner.includes("'") || cleaner.includes('*') || cleaner.toLowerCase().endsWith('u');
+                
+                let baseSwaraLetter = cleaner.match(/[srgmpdnSRGMPDN]/i);
+                if (baseSwaraLetter) {
+                    let letter = baseSwaraLetter[0].toLowerCase();
+                    let mapped = scriptMap[currentLanguage][normalizationMap[letter] || letter] || letter;
+                    let result = cleaner.replace(/[srgmpdnSRGMPDN]/i, mapped);
+                    // Remove octave markers for clean display as they are replaced by CSS dots
+                    result = result.replace(/[\.\*\'uUlL]/g, '');
+                    
+                    if (isLowerOctave) return `<span class="lower-octave">${result}</span>`;
+                    if (isUpperOctave) return `<span class="upper-octave">${result}</span>`;
+                    return `<span>${result}</span>`;
+                }
+                return `<span>${cleaner}</span>`;
+            }).join(' ');
+        }
+
+        function parseAndRender(shouldPushHistory = true) {
+            const curTitle = metaTitles[currentLanguage] || '';
+            const curComposer = metaComposers[currentLanguage] || '';
+            const curRaga = metaRagas[currentLanguage] || '';
+            const curTala = metaTalas[currentLanguage] || '';
+
+            document.getElementById('pubMainTitle').innerText = curTitle;
+            document.getElementById('pubComposer').innerText = curComposer;
+            document.getElementById('metaRagaName').innerText = curRaga;
+            document.getElementById('metaTalaName').innerText = curTala;
+            
+            const compLabel = document.getElementById('pubLabelComposer');
+            const compDiv = compLabel.parentElement;
+            if (!curComposer || curComposer.trim() === "") compDiv.classList.add('hidden');
+            else {
+                compDiv.classList.remove('hidden');
+                compLabel.innerText = structuralLabels[currentLanguage].composer;
+            }
+
+            document.getElementById('lblRaga').innerText = structuralLabels[currentLanguage].raga;
+            document.getElementById('lblTala').innerText = structuralLabels[currentLanguage].tala;
+            let scaleAro = transliterateScale(document.getElementById('arohanaInput').value);
+            let scaleAva = transliterateScale(document.getElementById('avarohanaInput').value);
+            document.getElementById('metaScaleText').innerHTML = (scaleAro || scaleAva) ? `${scaleAro} / ${scaleAva}` : "";
+            const talaKey = document.getElementById('talaSelect').value;
+            const blueprint = talaBlueprints[talaKey] || talaBlueprints.rupaka;
+            const swaraLines = document.getElementById('swaraInput').value.split('\n');
+            const sahityaLines = document.getElementById('sahityaInput').value.split('\n');
+            const showLyrics = document.getElementById('compositionType').value !== 'exercise';
+            const outputSheet = document.getElementById('outputSheet');
+            outputSheet.innerHTML = '';
+            let hasContent = false;
+            let currentSection = null;
+
+            swaraLines.forEach((line, index) => {
+                const trimmedLine = line.trim();
+                if (!trimmedLine && !(sahityaLines[index] && sahityaLines[index].trim())) return;
+                hasContent = true;
+                if (trimmedLine.startsWith('<')) {
+                    currentSection = document.createElement('div');
+                    currentSection.className = "break-inside-avoid mb-6";
+                    outputSheet.appendChild(currentSection);
+
+                    let token = trimmedLine.replace(/[<>]/g, '').toLowerCase();
+                    let div = document.createElement('div');
+                    div.className = "text-center py-1.5 border-y border-dashed border-slate-300 my-2 font-serif font-bold text-indigo-900 text-sm bg-slate-50/50";
+                    div.innerText = sectionMap[currentLanguage][token] || token.toUpperCase();
+                    currentSection.appendChild(div); return;
+                }
+                if (!currentSection) {
+                    currentSection = document.createElement('div');
+                    currentSection.className = "break-inside-avoid mb-6";
+                    outputSheet.appendChild(currentSection);
+                }
+                const swaraBeats = tokenizeLineData(line, true);
+                const sahityaBeats = tokenizeLineData(sahityaLines[index] || '', false);
+                const grid = document.createElement('div');
+                grid.className = `grid bg-white border border-slate-200 rounded-sm overflow-hidden w-full mb-1`;
+                grid.style.gridTemplateColumns = `repeat(${blueprint.beats}, minmax(0, 1fr))`;
+                for (let i = 0; i < blueprint.beats; i++) {
+                    const tile = document.createElement('div');
+                    tile.className = "p-1.5 flex flex-col justify-between items-center min-h-[56px] border-r border-slate-100 tile-cell relative";
+                    if (blueprint.bars.includes(i + 1)) tile.classList.add("anga-break");
+                    if (i === blueprint.beats - 1) tile.classList.add("avartham-end");
+                    const swaraDiv = document.createElement('div');
+                    swaraDiv.className = "w-full text-center flex justify-center items-center h-6 text-slate-900 font-mono";
+                    swaraDiv.innerHTML = parseBeatBlockToHTML(swaraBeats[i] || ',');
+                    tile.appendChild(swaraDiv);
+                    if (showLyrics) {
+                        const lyricDiv = document.createElement('div');
+                        lyricDiv.className = "text-center text-xs text-slate-500 truncate w-full mt-1 font-sans font-medium tracking-wide border-t border-slate-50 pt-0.5 min-h-[16px]";
+                        lyricDiv.innerText = (sahityaBeats[i] === ',' || sahityaBeats[i] === '_') ? '' : (sahityaBeats[i] || '');
+                        tile.appendChild(lyricDiv);
+                    }
+                    grid.appendChild(tile);
+                }
+                currentSection.appendChild(grid);
+            });
+            if(!hasContent) outputSheet.innerHTML = `<div class="text-center py-12 text-xs text-slate-400 italic border border-dashed border-slate-200 rounded-xl bg-white">Your interactive live score view will render here...</div>`;
+            if (shouldPushHistory) captureHistoryState();
+        }
+
+        function exportSheetJsonToFile() {
+            syncInputsToVars();
+            const exportData = { titles: metaTitles, composers: metaComposers, ragas: metaRagas, talaNames: metaTalas, tala: document.getElementById('talaSelect').value, compType: document.getElementById('compositionType').value, lang: currentLanguage, swaras: document.getElementById('swaraInput').value, sahitya: document.getElementById('sahityaInput').value, selectedSthanas: selectedSthanas, arohana: document.getElementById('arohanaInput').value, avarohana: document.getElementById('avarohanaInput').value, ragaPreset: document.getElementById('ragaPreset').value };
+            const suggestedName = (metaTitles[currentLanguage] || 'carnatic-sheet').toLowerCase().replace(/[^a-z0-9]/gi, '_');
+            const fileName = prompt("Enter filename to download:", suggestedName + ".json");
+            if (!fileName) return;
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url; a.download = fileName.endsWith('.json') ? fileName : fileName + '.json'; a.click();
+            URL.revokeObjectURL(url);
+            triggerToast("📥 Sheet layout saved!");
+        }
+
+        function processLocalFileJson(inputElement) {
+            const file = inputElement.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    applyStatePayloadToWorkspace({ ...parsed, lang: parsed.lang || 'te' });
+                    setLanguage(parsed.lang || 'te');
+                    undoStack = []; redoStack = []; captureHistoryState();
+                    triggerToast("📤 Score workspace loaded!");
+                } catch (err) { alert("Invalid JSON data format."); }
+            };
+            reader.readAsText(file);
+        }
+
+        function triggerPrintWithPreCheck() {
+            saveToLocal();
+            setTimeout(() => { window.print(); }, 500);
+        }
+
+        function saveToLocal() {
+            syncInputsToVars();
+            const payload = { titles: metaTitles, composers: metaComposers, ragas: metaRagas, talaNames: metaTalas, swaras: document.getElementById('swaraInput').value, sahitya: document.getElementById('sahityaInput').value, tala: document.getElementById('talaSelect').value, compType: document.getElementById('compositionType').value, lang: currentLanguage, selectedSthanas: selectedSthanas, arohana: document.getElementById('arohanaInput').value, avarohana: document.getElementById('avarohanaInput').value, ragaPreset: document.getElementById('ragaPreset').value };
+            localStorage.setItem('carnatic_studio_v1.2', JSON.stringify(payload));
+            triggerToast("💾 Sheet saved locally!");
+        }
+
+        function clearWorkspace() {
+            document.querySelectorAll('input, textarea').forEach(i => i.value = "");
+            document.getElementById('talaSelect').value = "rupaka";
+            document.getElementById('compositionType').value = "geetham";
+            selectedSthanas = { R: '', G: '', M: '', D: '', N: '' };
+            metaTitles = { en: "", te: "" };
+            metaComposers = { en: "", te: "" };
+            metaRagas = { en: "", te: "" };
+            metaTalas = { en: "", te: "" };
+            updateSthanaButtonsUI();
+            undoStack = []; redoStack = []; syncInputsToVars(); parseAndRender(true);
+        }
+
+        window.onload = function() {
+            const raw = localStorage.getItem('carnatic_studio_v1.2');
+            if (raw) {
+                const data = JSON.parse(raw);
+                applyStatePayloadToWorkspace(data);
+                setLanguage(data.lang || 'te');
+            } else { clearWorkspace(); setLanguage('te'); }
+        };
+    </script>
+</body>
+</html>
