@@ -4,29 +4,5 @@
     "title": { "en": "Sarali Swara 1", "te": "సరళి స్వరాలు 1" },
     "type": "exercise",
     "raga": "Mayamalavagowla"
-  },
-  {
-    "file": "sarali_2.json",
-    "title": { "en": "Sarali Swara 2", "te": "సరళి స్వరాలు 2" },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  },
-  {
-    "file": "sarali_3.json",
-    "title": { "en": "Sarali Swara 3", "te": "సరళి స్వరాలు 3" },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  },
-  {
-    "file": "sarali_4.json",
-    "title": { "en": "Sarali Swara 4", "te": "సరళి స్వరాలు 4" },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  },
-  {
-    "file": "sarali_5.json",
-    "title": { "en": "Sarali Swara 5", "te": "సరళి స్వరాలు 5" },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  }
+  } 
 ]
