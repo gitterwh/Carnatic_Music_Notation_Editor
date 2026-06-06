@@ -8,7 +8,7 @@
     <style>
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 1cm; }
+            body { background: white; padding: 1cm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .print-sheet { box-shadow: none !important; border: none !important; width: 100% !important; }
         }
         .category-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
