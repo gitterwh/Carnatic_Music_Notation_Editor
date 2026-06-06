@@ -117,7 +117,7 @@
         const sectionMap = { en: { p: "Pallavi", ap: "Anupallavi", ch: "Charanam", chi: "Chittaswaram" }, te: { p: "పల్లవి", ap: "అనుపల్లవి", ch: "చరణం", chi: "చిట్టస్వరం" } };
         const scriptMap = { en: { s: "S", r: "R", g: "G", m: "M", p: "P", d: "D", n: "N", comma: ",", semicolon: ";" }, te: { s: "స", r: "రి", g: "గ", m: "మ", p: "ప", d: "ద", n: "ని", comma: ",", semicolon: ";" } };
         const normalizationMap = { "స": "s", "రి": "r", "గ": "g", "మ": "m", "ప": "p", "ద": "d", "ని": "n", "న": "n", "s": "s", "r": "r", "g": "g", "m": "m", "p": "p", "d": "d", "n": "n" };
-        const talaBlueprints = { adi: { beats: 8, bars: [4, 6] }, dhruva: { beats: 14, bars: [4, 6, 10] }, matya: { beats: 10, bars: [4, 6] }, rupaka: { beats: 6, bars: [2] }, jhampa: { beats: 10, bars: [7, 8] }, triputa: { beats: 7, bars: [3, 5] }, ata: { beats: 14, bars: [5, 10] }, eka: { beats: 4, bars: [] } };
+        const talaBlueprints = { adi: { beats: 8, bars: [4, 6] }, varna_adi: { beats: 16, bars: [8, 12] }, adi_double: { beats: 16, bars: [4, 6, 8, 12, 14] }, dhruva: { beats: 14, bars: [4, 6, 10] }, matya: { beats: 10, bars: [4, 6] }, rupaka: { beats: 6, bars: [2] }, jhampa: { beats: 10, bars: [7, 8] }, triputa: { beats: 7, bars: [3, 5] }, ata: { beats: 14, bars: [5, 10] }, eka: { beats: 4, bars: [] } };
 
         window.onload = async () => {
             const grid = document.getElementById('categoryGrid');
