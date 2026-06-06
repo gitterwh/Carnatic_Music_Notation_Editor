@@ -5,23 +5,29 @@ on:
       - 'lessons/**.json'
       - '!lessons/manifest.json'
 
+permissions:
+  contents: write
+
 jobs:
   build-manifest:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Generate manifest.json
+        shell: bash
         run: |
           cd lessons
+          shopt -s nullglob
           echo "Generating manifest..."
-          # This script loops through all JSONs and extracts metadata into the manifest
+          
+          # Process each json file and combine into a single array
           for f in *.json; do
-            if [ "$f" != "manifest.json" ]; then
-              cat "$f" | jq --arg fname "$f" '. | {file: $fname, title: (.titles // {en: .title, te: .title}), type: .compType, raga: (.ragas.en // .raga // "")}'
+            if [[ "$f" != "manifest.json" ]]; then
+              jq -c --arg fname "$f" '{file: $fname, title: (.titles // {en: .title, te: .title}), type: .compType, raga: (.ragas.en // .raga // "")}' "$f"
             fi
-          done | jq -s '.' > manifest.json
+          done | jq -s '.' > manifest.json || echo "[]" > manifest.json
 
       - name: Commit and Push Manifest
         run: |
