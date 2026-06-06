@@ -309,8 +309,13 @@
                 for (let i = 0; i < blueprint.beats; i++) {
                     const tile = document.createElement('div');
                     tile.className = "p-2 flex flex-col justify-between items-center min-h-[64px] border-r border-slate-100 tile-cell";
-                    if (blueprint.bars.includes(i + 1)) tile.classList.add("anga-break");
-                    if (i === blueprint.beats - 1) tile.classList.add("avartham-end");
+                    
+                    const isDoubleBar = (i === blueprint.beats - 1) || (d.tala === 'adi_double' && i === 7);
+                    if (isDoubleBar) {
+                        tile.classList.add("avartham-end");
+                    } else if (blueprint.bars.includes(i + 1)) {
+                        tile.classList.add("anga-break");
+                    }
                     
                     const sDiv = document.createElement('div');
                     sDiv.className = "w-full text-center flex justify-center items-center h-8 text-slate-900 font-mono text-lg";
