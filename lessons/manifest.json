@@ -18,15 +18,6 @@
     "raga": "Mayamalavagowla"
   },
   {
-    "file": "sarali.json",
-    "title": {
-      "en": "Sarali Swaras",
-      "te": "సరళీ స్వరాలు"
-    },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  },
-  {
     "file": "saraliswaras.json",
     "title": {
       "en": "Sarali SWARAs",
