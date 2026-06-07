@@ -8,7 +8,7 @@
     <style>
         /* Printing optimizations to display clean high-contrast notation layout templates */
         @media print {
-            .no-print, footer, #toast, .action-terminal { display: none !important; }
+            .no-print, footer, #toast, .action-terminal, .highlight-beat, #ragaModal { display: none !important; }
             @page { margin: 0; size: portrait; }
             body { background: white; color: black; padding: 1.2cm; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .print-sheet { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
@@ -30,18 +30,38 @@
         .speed-line-3 { border-bottom: 4.5px double #000; border-top: 1px solid #000; padding-bottom: 2px; }
         
         /* Standard Tala Anga border separations */
+        @media (max-width: 1023px) {
+            .mobile-preview-sync { 
+                position: sticky !important; 
+                top: 0 !important; 
+                height: 35vh !important; 
+                overflow-y: auto !important; 
+                background: white !important; 
+                z-index: 50 !important; 
+                border-bottom: 4px solid #f1f5f9 !important;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+            }
+            /* Hide non-essential UI in mobile Sahitya focus mode */
+            .sahitya-focus-mode .hide-on-sahitya-focus { display: none !important; }
+            .sahitya-focus-mode #sahityaInput { 
+                height: 40vh !important; 
+                position: relative;
+                z-index: 60;
+            }
+        }
         .anga-break { border-right: 2px solid #64748b !important; }
         .avartham-end { border-right: 5px double #0f172a !important; }
+        .highlight-beat { background-color: #fef9c3 !important; outline: 2px solid #facc15; z-index: 10; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 p-3 md:p-6">
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print max-h-[95vh] overflow-y-auto">
+        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print max-h-[95vh] overflow-y-auto lg:sticky lg:top-6">
             <div class="flex justify-between items-start">
                 <div>
-                    <h1 class="text-xl font-bold text-slate-900">🎼 Publishing Desk V1.2</h1>
+                    <h1 class="text-xl font-bold text-slate-900">🎼 Publishing Desk V1.3</h1>
                     <p class="text-xs text-slate-500 mt-0.5">Configure scales and manage notation engines.</p>
                 </div>
                 <div class="relative inline-block text-left">
@@ -55,12 +75,12 @@
                 </div>
             </div>
 
-            <div class="flex gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200">
+            <div class="flex gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 hide-on-sahitya-focus">
                 <button onclick="undo()" id="btnUndo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟲ Undo</button>
                 <button onclick="redo()" id="btnRedo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟳ Redo</button>
             </div>
 
-            <div>
+            <div class="hide-on-sahitya-focus">
                 <label id="lblLanguageHeader" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Global Sheet Language / భాష</label>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="setLanguage('en')" id="lang-en" class="py-1.5 px-3 rounded-lg border text-xs font-medium bg-white text-slate-700 border-slate-200 cursor-pointer">English</button>
@@ -68,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 space-y-3">
+            <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 space-y-3 hide-on-sahitya-focus">
                 <span id="lblCompHeaders" class="block text-xs font-bold text-indigo-950 uppercase tracking-wider">Composition Headers</span>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -90,7 +110,7 @@
                 </div>
             </div>
 
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between hide-on-sahitya-focus">
                 <div>
                     <span id="lblMatrixTitle" class="block text-xs font-bold text-slate-700">16 Swarasthanas Scale Settings</span>
                     <p id="lblMatrixDesc" class="text-[10px] text-slate-400">Map notes, Arohana, and Avarohana parameters.</p>
@@ -100,7 +120,7 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-3 hide-on-sahitya-focus">
                 <div class="flex flex-col">
                     <label id="lblTalaSelect" class="block text-xs font-bold text-slate-600 uppercase mb-1">Suladi Sapta Talas</label>
                     <select id="talaSelect" onchange="onTalaDropdownChange()" class="w-full h-9 block rounded-lg border border-slate-300 px-2 bg-white text-xs font-medium focus:outline-none text-slate-900 focus:ring-1 focus:ring-indigo-500">
@@ -128,27 +148,27 @@
             </div>
 
             <div class="space-y-3">
-                <div>
+                <div class="hide-on-sahitya-focus">
                     <div class="flex justify-between items-center mb-1">
                         <label id="lblSwaraInput" class="block text-xs font-bold text-slate-600 uppercase">Swaras Notation Text</label>
                         <span class="text-[10px] text-indigo-600 font-mono bg-indigo-50 px-1 py-0.5 rounded">&lt;p&gt;, &lt;ap&gt;, &lt;ch&gt;, &lt;chi&gt; sections</span>
                     </div>
-                    <textarea id="swaraInput" rows="6" oninput="handleInputChange();" class="w-full p-2.5 border border-slate-300 rounded-xl notation-font text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type swaras... Speed tiers: ql, qll, qlll ... e. Breaks: b. Octaves: u, l. Extension: c or ,"></textarea>
+                    <textarea id="swaraInput" rows="6" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl notation-font text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type swaras..."></textarea>
                 </div>
                 <div>
                     <label id="lblSahityaInput" class="block text-xs font-bold text-slate-600 uppercase mb-1">Sahitya Lyrics Text</label>
-                    <textarea id="sahityaInput" inputmode="url" rows="5" oninput="handleInputChange();" class="w-full p-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type lyric syllables matching swara tokens..."></textarea>
+                    <textarea id="sahityaInput" inputmode="url" rows="5" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type lyric syllables matching swara tokens..."></textarea>
                 </div>
             </div>
 
-            <div class="flex gap-2">
+            <div class="flex gap-2 hide-on-sahitya-focus">
                 <button onclick="saveToLocal()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">💾 Save Sheet</button>
                 <button onclick="triggerPrintWithPreCheck()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">🖨️ Export PDF</button>
             </div>
             <div id="toast" class="text-center text-xs font-semibold italic hidden p-1.5 rounded-lg"></div>
         </div>
 
-        <div class="lg:col-span-7 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 print-sheet flex flex-col justify-between">
+        <div id="previewPane" class="lg:col-span-7 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 print-sheet flex flex-col justify-between">
             <div>
                 <div class="border-b-4 border-slate-900 pb-4 mb-6 text-center space-y-2 relative">
                     <h2 id="pubMainTitle" contenteditable="true" onblur="syncViewerToTextareas()" class="text-3xl font-serif font-black text-slate-900 tracking-wide uppercase focus:bg-slate-50 focus:outline-none rounded px-2"></h2>
@@ -339,13 +359,21 @@
         };
 
         const structuralLabels = {
-            en: { raga: "Raga:", tala: "Tala:", composer: "Composer" },
-            te: { raga: "రాగం:", tala: "తాళం:", composer: "రచయిత" }
+            en: { raga: "Raga:", tala: "Tala:", composer: "Composer", arohana: "Arohana:", avarohana: "Avarohana:" },
+            te: { raga: "రాగం:", tala: "తాళం:", composer: "రచయిత", arohana: "ఆరోహణ:", avarohana: "అవరోహణ:" }
         };
 
         const sectionMap = {
-            en: { p: "Pallavi", ap: "Anupallavi", ch: "Charanam", chi: "Chittaswaram" },
-            te: { p: "పల్లవి", ap: "అనుపల్లవి", ch: "చరణం", chi: "చిట్టస్వరం" }
+            en: { p: "Pallavi", ap: "Anupallavi", ms: "Mukthayi Swaram", ch: "Charanam", chi: "Chittaswaram", janta: "Janta", daatu: "Daatu", hechchu: "Hechchu", hechcchu: "Hechchu", swara: "Swara", swaram: "Swaram", swaras: "Swaras", swaralu: "Swaralu", tala: "Tala", talam: "Talam", sarali: "Sarali" },
+            te: { p: "పల్లవి", ap: "అనుపల్లవి", ms: "ముక్తాయి స్వరం", ch: "చరణం", chi: "చిట్టస్వరం", janta: "జంట", daatu: "దాటు", hechchu: "హెచ్చు", hechcchu: "హెచ్చు", swara: "స్వరం", swaram: "స్వరం", swaras: "స్వరాలు", swaralu: "స్వరాలు", tala: "తాళం", talam: "తాళం", sarali: "సరళి" }
+        };
+
+        const teluguToEnglishMap = {
+            '\u0C05': 'a', '\u0C06': 'aa', '\u0C07': 'i', '\u0C08': 'ii', '\u0C09': 'u', '\u0C0A': 'uu', '\u0C0B': 'ru', '\u0C0E': 'e', '\u0C0F': 'ee', '\u0C10': 'ai', '\u0C12': 'o', '\u0C13': 'oo', '\u0C14': 'au',
+            '\u0C15': 'ka', '\u0C16': 'kha', '\u0C17': 'ga', '\u0C18': 'gha', '\u0C19': 'gna', '\u0C1A': 'ca', '\u0C1B': 'cha', '\u0C1C': 'ja', '\u0C1D': 'jha', '\u0C1E': 'nya',
+            '\u0C1F': 'ta', '\u0C20': 'tha', '\u0C21': 'da', '\u0C22': 'dha', '\u0C23': 'na', '\u0C24': 'tha', '\u0C25': 'thha', '\u0C26': 'da', '\u0C27': 'dha', '\u0C28': 'na',
+            '\u0C2A': 'pa', '\u0C2B': 'pha', '\u0C2C': 'ba', '\u0C2D': 'bha', '\u0C2E': 'ma', '\u0C2F': 'ya', '\u0C30': 'ra', '\u0C31': 'ra', '\u0C32': 'la', '\u0C33': 'la', '\u0C34': 'lla', '\u0C35': 'va', '\u0C36': 'sha', '\u0C37': 'sha', '\u0C38': 'sa', '\u0C39': 'ha',
+            '\u0C3E': 'aa', '\u0C3F': 'i', '\u0C40': 'ii', '\u0C41': 'u', '\u0C42': 'uu', '\u0C43': 'ru', '\u0C46': 'e', '\u0C47': 'ee', '\u0C48': 'ai', '\u0C4A': 'o', '\u0C4B': 'oo', '\u0C4C': 'au', '\u0C4D': '', '\u0C01': 'm', '\u0C02': 'm', '\u0C03': 'h'
         };
 
         const scriptMap = {
@@ -366,6 +394,8 @@
         };
 
         let selectedSthanas = { R: '', G: '', M: '', D: '', N: '' };
+        let focusedLine = -1;
+        let focusedBeat = -1;
 
         function toggleModal(show) {
             const modal = document.getElementById('ragaModal');
@@ -403,6 +433,46 @@
             if (undoStack.length > maxHistorySize) undoStack.shift();
             redoStack = []; 
             updateUndoRedoButtonsUI();
+        }
+
+        function handleHighlight() {
+            const swaraArea = document.getElementById('swaraInput');
+            const sahityaArea = document.getElementById('sahityaInput');
+            const active = document.activeElement;
+            const previewPane = document.getElementById('previewPane');
+            
+            if (active !== swaraArea && active !== sahityaArea) {
+                focusedLine = -1; focusedBeat = -1;
+                document.body.classList.remove('sahitya-focus-mode');
+                if (previewPane) previewPane.classList.remove('mobile-preview-sync');
+                parseAndRender(false);
+                return;
+            }
+
+            if (active === sahityaArea && window.innerWidth < 1024) {
+                previewPane.classList.add('mobile-preview-sync');
+                document.body.classList.add('sahitya-focus-mode');
+            } else {
+                if (previewPane) previewPane.classList.remove('mobile-preview-sync');
+                document.body.classList.remove('sahitya-focus-mode');
+            }
+
+            const textBeforeCursor = active.value.substring(0, active.selectionStart);
+            const linesBefore = textBeforeCursor.split('\n');
+            focusedLine = linesBefore.length - 1;
+            
+            const currentLinePart = linesBefore[focusedLine];
+            const tokens = tokenizeLineData(currentLinePart, active === swaraArea);
+            focusedBeat = tokens.length - 1;
+            
+            parseAndRender(false);
+
+            // Auto-scroll preview to current line
+            const targetAttr = active === swaraArea ? 'data-swara-line' : 'data-sahitya-line';
+            const targetEl = document.querySelector(`[${targetAttr}="${focusedLine}"]`);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         function undo() {
@@ -603,13 +673,41 @@
             return content;
         }
 
+        function transliterateTeluguToEnglish(token) {
+            if (!token || token === '.') return "";
+            if (/^[a-zA-Z0-9\u0027]+$/.test(token)) return token;
+            let res = "";
+            for (let i = 0; i < token.length; i++) {
+                let char = token[i];
+                let mapped = teluguToEnglishMap[char] || "";
+                if (char === '\u0C4D') {
+                    if (res.endsWith('a')) res = res.slice(0, -1);
+                } else if (mapped) {
+                    // Replace inherent 'a' if a vowel sign (matra) follows
+                    if (res.endsWith('a') && "aeiouāīūēō".includes(mapped[0]) && i > 0) {
+                        res = res.slice(0, -1) + mapped;
+                    } else {
+                        res += mapped;
+                    }
+                } else res += char;
+            }
+            // Standard transliteration cleanup
+            return res.replace(/aa/g, 'ā').replace(/ii/g, 'ī').replace(/uu/g, 'ū').replace(/ee/g, 'ē').replace(/oo/g, 'ō');
+        }
+
         function tokenizeLineData(rawLineString, isSwaras = true) {
             let trimmed = rawLineString.trim();
             if (!trimmed) return [];
             if (isSwaras && trimmed.startsWith('<') && trimmed.endsWith('>')) return [trimmed];
-            let regexPattern = /qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g;
+            
+            let regexPattern = isSwaras 
+                ? /qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g
+                : /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]/g;
+            
             let words = trimmed.split(/\s+/);
             let unifiedTokens = [];
+            if (!isSwaras) return trimmed.match(regexPattern) || [];
+
             words.forEach(word => {
                 let segmentedAtoms = word.match(regexPattern);
                 if (segmentedAtoms) unifiedTokens.push(...segmentedAtoms);
@@ -653,6 +751,12 @@
             }).join(' ');
         }
 
+        function getAtomicCount(beatBlock) {
+            if (!beatBlock || [',',';'].includes(beatBlock)) return 1;
+            const atoms = beatBlock.match(/[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;cC]/g);
+            return atoms ? atoms.length : 1;
+        }
+
         function parseAndRender(shouldPushHistory = true) {
             const curTitle = metaTitles[currentLanguage] || '';
             const curComposer = metaComposers[currentLanguage] || '';
@@ -676,7 +780,16 @@
             document.getElementById('lblTala').innerText = structuralLabels[currentLanguage].tala;
             let scaleAro = transliterateScale(document.getElementById('arohanaInput').value);
             let scaleAva = transliterateScale(document.getElementById('avarohanaInput').value);
-            document.getElementById('metaScaleText').innerHTML = (scaleAro || scaleAva) ? `${scaleAro} / ${scaleAva}` : "";
+
+            const hasScale = scaleAro || scaleAva;
+            if (hasScale) {
+                let scaleHTML = `<div class="flex flex-col md:flex-row items-center md:justify-center md:gap-x-6 gap-y-1">`;
+                if (scaleAro) scaleHTML += `<div class="flex gap-x-2"><span>${structuralLabels[currentLanguage].arohana}</span> <span class="font-bold">${scaleAro}</span></div>`;
+                if (scaleAva) scaleHTML += `<div class="flex gap-x-2"><span>${structuralLabels[currentLanguage].avarohana}</span> <span class="font-bold">${scaleAva}</span></div>`;
+                scaleHTML += `</div>`;
+                document.getElementById('metaScaleText').innerHTML = scaleHTML;
+            } else { document.getElementById('metaScaleText').innerHTML = ""; }
+
             const talaKey = document.getElementById('talaSelect').value;
             const blueprint = talaBlueprints[talaKey] || talaBlueprints.rupaka;
             const swaraLines = document.getElementById('swaraInput').value.split('\n');
@@ -685,32 +798,58 @@
             const outputSheet = document.getElementById('outputSheet');
             outputSheet.innerHTML = '';
             let hasContent = false;
+            let sahityaLinePointer = 0;
             let currentSection = null;
 
             swaraLines.forEach((line, index) => {
                 const trimmedLine = line.trim();
-                if (!trimmedLine && !(sahityaLines[index] && sahityaLines[index].trim())) return;
+                if (!trimmedLine) return;
+                
                 hasContent = true;
                 if (trimmedLine.startsWith('<')) {
                     currentSection = document.createElement('div');
                     currentSection.className = "break-inside-avoid mb-6";
                     outputSheet.appendChild(currentSection);
-
-                    let token = trimmedLine.replace(/[<>]/g, '').toLowerCase();
+                    let rawText = trimmedLine.replace(/[<>]/g, '');
+                    let translatedText = rawText.split(/\s+/).map(word => {
+                        let key = word.toLowerCase();
+                        return sectionMap[currentLanguage][key] || word;
+                    }).join(' ');
                     let div = document.createElement('div');
                     div.className = "text-center py-1.5 border-y border-dashed border-slate-300 my-2 font-serif font-bold text-indigo-900 text-sm bg-slate-50/50";
-                    div.innerText = sectionMap[currentLanguage][token] || token.toUpperCase();
-                    currentSection.appendChild(div); return;
+                    div.innerText = translatedText;
+                    currentSection.appendChild(div); 
+                    
+                    // Sync Sahitya: Re-align if a matching tag is found anywhere in Sahitya
+                    let swaraTag = trimmedLine.trim().toLowerCase();
+                    let foundIdx = sahityaLines.findIndex(l => l.trim().toLowerCase() === swaraTag);
+                    if (foundIdx !== -1) {
+                        sahityaLinePointer = foundIdx + 1;
+                    }
+                    
+                    return;
                 }
                 if (!currentSection) {
                     currentSection = document.createElement('div');
                     currentSection.className = "break-inside-avoid mb-6";
                     outputSheet.appendChild(currentSection);
                 }
+
                 const swaraBeats = tokenizeLineData(line, true);
-                const sahityaBeats = tokenizeLineData(sahityaLines[index] || '', false);
+                let currentSahityaLine = '';
+                let currentSahityaIdx = -1;
+                // Only consume a sahitya line if it is NOT a section tag boundary
+                if (sahityaLines[sahityaLinePointer] !== undefined && !sahityaLines[sahityaLinePointer].trim().startsWith('<')) {
+                    currentSahityaIdx = sahityaLinePointer;
+                    currentSahityaLine = sahityaLines[sahityaLinePointer++];
+                }
+                const sahityaBeats = tokenizeLineData(currentSahityaLine, false);
+                let lyIndex = 0;
+                
                 const grid = document.createElement('div');
                 grid.className = `grid bg-white border border-slate-200 rounded-sm overflow-hidden w-full mb-1`;
+                grid.dataset.swaraLine = index;
+                if (currentSahityaIdx !== -1) grid.dataset.sahityaLine = currentSahityaIdx;
                 grid.style.gridTemplateColumns = `repeat(${blueprint.beats}, minmax(0, 1fr))`;
                 for (let i = 0; i < blueprint.beats; i++) {
                     const tile = document.createElement('div');
@@ -722,15 +861,33 @@
                     } else if (blueprint.bars.includes(i + 1)) {
                         tile.classList.add("anga-break");
                     }
+
+                    if (focusedLine === index && focusedBeat === i) tile.classList.add("highlight-beat");
                     
                     const swaraDiv = document.createElement('div');
                     swaraDiv.className = "w-full text-center flex justify-center items-center h-6 text-slate-900 font-mono";
                     swaraDiv.innerHTML = parseBeatBlockToHTML(swaraBeats[i] || ',');
                     tile.appendChild(swaraDiv);
                     if (showLyrics) {
+                        const atomsInBeat = getAtomicCount(swaraBeats[i]);
+                        let beatSahitya = [];
+                        for(let a=0; a < atomsInBeat; a++) {
+                            let token = sahityaBeats[lyIndex++] || '';
+                            // Check for skip tokens to display period
+                            if (token === 'c' || token === ',' || token === '.') {
+                                beatSahitya.push('<span class="opacity-40">.</span>');
+                            } else if (token) {
+                                let en = transliterateTeluguToEnglish(token);
+                                if (currentLanguage === 'en') {
+                                    beatSahitya.push(`<span class="text-slate-800 font-medium">${en || token}</span>`);
+                                } else {
+                                    beatSahitya.push(`<span>${token}</span>`);
+                                }
+                            } else beatSahitya.push('');
+                        }
                         const lyricDiv = document.createElement('div');
-                        lyricDiv.className = "text-center text-xs text-slate-500 truncate w-full mt-1 font-sans font-medium tracking-wide border-t border-slate-50 pt-0.5 min-h-[16px]";
-                        lyricDiv.innerText = (sahityaBeats[i] === ',' || sahityaBeats[i] === '_') ? '' : (sahityaBeats[i] || '');
+                        lyricDiv.className = "text-center text-[10px] text-slate-700 w-full mt-1 font-sans font-medium tracking-wide border-t border-slate-50 pt-0.5 min-h-[16px] flex justify-around gap-1";
+                        lyricDiv.innerHTML = beatSahitya.join(' ');
                         tile.appendChild(lyricDiv);
                     }
                     grid.appendChild(tile);
