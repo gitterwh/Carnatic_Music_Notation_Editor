@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Daatu Swaras",
+    "te": "దాటు స్వరాలు"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Adi Tala",
+    "te": "ఆది తాళం (8 క్రియలు, వరుసకు రెండు)"
+  },
+  "tala": "adi_double",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "<Daatu Swara 1>\nsmgrsrgm rpmgrgmp\ngdpmgmpd mndpmpdn\npsndpdnsusupdnsundp\nnmpdndpmdgmpdpmg\nprgmpmgrmsrgmgrs\n\n<Daatu Swara 2>\nmgrgsrgm pmgmrgmp\ndpmpgmpd ndpdmpdn\nsundnpdnsu pdndsundp\nmpdpndpm gmpmdpmg\nrgmgpmgr srgrmgrs\n\n<Daatu Swara 3>\nsgrgsrgm rmgmrgmp\ngpmpgmpdmdpdmpdnpndnpdnsu sudndsundp\nnpdpndpm dpmpdpmg\nrgmgpmgr mrgrmgrs\n\n<Daatu Swara 4>\nsrsgrgmg sgrgsrgm\nrgrmgmpm rmgmrgmp\ngmgpmpdp gpmpgmpd\nmpmdpdnd mdpdmpdn\npdpndnsun pndnpdnsu\nsunsudndpd sudndsundp\nndnpdpmp npdpndpm\ndpdmpmgm dmgmdpmg\npmpgmgrg pgrgpmgr\n \n",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
+}

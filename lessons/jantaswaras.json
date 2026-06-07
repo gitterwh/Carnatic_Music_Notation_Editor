@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Janta Swaras",
+    "te": "జంట స్వరాలు"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Adi Tala",
+    "te": "ఆది తాళం"
+  },
+  "tala": "adi_double",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "<Janta Swara 1>\nssrrggmmppddnnsusu\nsusunnddppmmggrrss\n<Janta Swara 2>\nssrrggmmssrrggmm\nssrrggmmppddnnsusu\nsusunnddppsusunnddpp\nsusunnddppmmggrrss\n<Janta Swara 3>\nssrrggrrssrrggmm\nrrggmmggrrggmmpp\nggmmppmmggmmppdd\nmmppddppmmppddnn\nppddnnddppddnsusu\nsusunnddnnsusunnddpp\nnnddppddnnddppmm\nddppmmppddppmmgg\nppmmggmmppmmggrr\nmmggrrggmmggrrss\n<JANTA Swara 4>\nSS RR SS RR SS RR GG MM\nRR GG RR GG RR GG MM PP\nGG MM GG MM GG MM PP DD\nMM PP MM PP MM PP DD NN\nPP DD PP DD PP DD NN SU SU\nSUSU NN SUSU NN SUSU NN DD PP\nNN DD NN DD NN DD PP MM\nDD PP DD PP DD PP MM GG\nPP MM PP MM PP MM GG RR\nMM GG MM GG MM GG RR SS\n\n<Janta Swara 5>\nSS RS SR SR SS RR GG MM\nRR GR RG RG RR GG MM PP\nGG MG GM GM GG MM PP DD\nMM PM MP MP MM PP DD NN\nPP DP PD PD PP DD NN SUSU\nSUSU NSU SUN SUN SUSU NN DD PP\nNN DN ND ND NN DD PP MM\nDD PD DP DP DD PP MM GG\nPP MP PM PM PP MM GG RR\nMM GR RG RG MM GG RR SS\n\n<Janta Swara 6>\nSS RR GS RG SS RR GG MM\nRR GG MR GM RR GG MM PP\nGG MM PG Mp GG MM PP DD\nMM PP DM PD MM PP DD NN\nPP DD NP DN PP DD NN SUSU\nSUSU NN DSU ND SUSU NN DD PP\nNN DD PN DP NN DD PP MM\nDD PP MD PM DD PP MM GG\nPP MM GP MG PP MM GG RR\nMM GG RM GR MM GG RR SS\n\n<Janta Swara 7>\nsscrsrsrssrrggmm\nrrcgrgrg rrggmmpp\nggcmgmgm ggmmppdd\nmmcpmpmp mmppddnn\nppcdpdpdppddnnsusu\nsusucnsunsunsusunnddpp\nnncdndndnnddppmm\nddcpdpdpddppmmgg\nppcmpmpmppmmggrr\nmmcgmgmgmmggrrss\n<Janta Swara 8>\nscsrcrggssrrggmm\nrcrgcgmm rrggmmpp\ngcgmcmpp ggmmppdd\nmcmpcpdd mmppddnn\npcpdcdnn ppddnnsusu\nsucsuncndd susunnddpp\nncndcdpp nnddppmm\ndcdpcpmm ddppmmgg\npcpmcmgg ppmmggrr\nmcmgcgrr mmggrrss\n\n<Janta Swara 9>\nsssrrrggssrrggmm\nrrrgggmm rrggmmpp\ngggmmmpp ggmmppdd\nmmmpppdd mmppddnn\npppdddnn ppddnnsusu\nsususunnndd susunnddpp\nnnndddpp nnddppmm\ndddpppmm ddppmmgg\npppmmmgg ppmmggrr\nmmmgggrr mmggrrss\n\n<Janta Swara 10>\nssrrssgg ssmmggrr \nssrrgsrg ssrrggmm\nrrggrrmm rrppmmgg \nrrggmrgm rrggmmpp\nggmmggpp ggddppmm \nggmmpgmp ggmmppdd\nmmppmmdd mmnnddpp \nmmppdmpd mmppddnn\nppddppnn ppsusunndd \nppddnpdn ppddnnsusu\n\nsusunnsusudd susuppddnn\nsusunndsnd susunnddpp\n\nnndd nnpp nnmm ppdd\nnndd pndp nnddppmm\n\nddppddmm ddggmmpp \nddppmdpm ddppmmgg\n\nppmmppggpprrggmm\nppmmgpmg ppmmggrr\n\nmmggmmrrmmssrrgg\nmmggrmgrmmggrrss",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
+}

@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Sarali SWARAs",
+    "te": "సరళీ స్వరాలు"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Adi",
+    "te": "ఆది"
+  },
+  "tala": "adi",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "<Sarali Swara 1>\nsrgmpdnsu\nsundpmgrs\n<Sarali Swara 2>\nsrgmsrgm\nsrgmpdnsu\nsundpsundp\nsundpmgrs\n<Sarali Swara 3>\nsrgmsrsr\nsrgmpdnsu\nsundpsunsun\nsundpmgrs\n<Sarali Swara 4>\nsrgmpcpc\nsrgmpdnsu\nsundpmcmc\nsundpmgrs\n<Sarali Swara 5>\nsrgsrgsr\nsrgmpdnsu\nsundsundsun\nsundpmgrs\n<Sarali Swara 6>\nsrgmpmgr\nsrgmpdnsu\nsundpmpdn\nsundpmgrs\n<Sarali Swara 7>\nsrgmpmdp\nsrgmpdnsu\nsundpmpgm\nsundpmgrs\n<Sarali Swara 8>\nsrgmrgmp\nsrgmpdnsu\nsundpndpm\nsundpmgrs\n<Sarali Swara 9>\nsrgmsmgr\nsrgmpdnsu\nsundpsupdn\nsundpmgrs\n<Sarali Swara 10>\nsrgmpdnd\nsundnsunsuc\nsundpmpdp\npmgmgrsc\n<Sarali Swara 11>\nsrgmpcpm\nddpcmmpc\ndnsucsundp\nsundpmgrs\n<Sarali Swara 12>\nsrgmpcgmpc\npcccpccc\ngmpdndpm\ngmpgmgrs\n<Sarali Swara 13>\nsucndncdp\ndcpmpcpc\ngmpdndpm\ngmpgmgrs\n<Sarali Swara 14>\nsusundnndp\nddpmpcpc\ngmpdndpm\ngmpgmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
+}
