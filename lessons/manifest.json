@@ -1,8 +1,38 @@
 [
   {
-    "file": "sarali.json",
-    "title": { "en": "Sarali Swara", "te": "సరళి స్వరాలు" },
+    "file": "daatuswaras.json",
+    "title": {
+      "en": "Daatu Swaras",
+      "te": "దాటు స్వరాలు"
+    },
     "type": "exercise",
     "raga": "Mayamalavagowla"
-  } 
+  },
+  {
+    "file": "jantaswaras.json",
+    "title": {
+      "en": "Janta Swaras",
+      "te": "జంట స్వరాలు"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "sarali.json",
+    "title": {
+      "en": "Sarali Swaras",
+      "te": "సరళీ స్వరాలు"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "saraliswaras.json",
+    "title": {
+      "en": "Sarali SWARAs",
+      "te": "సరళీ స్వరాలు"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  }
 ]
