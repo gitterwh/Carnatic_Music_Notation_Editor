@@ -30,10 +30,17 @@
         .speed-line-3 { border-bottom: 4.5px double #000; border-top: 1px solid #000; padding-bottom: 2px; }
         
         /* Standard Tala Anga border separations */
+        .mode-content { display: none; }
+        .mode-content.active { display: block; }
+
         @media (max-width: 1023px) {
             .mobile-preview-sync { 
+                position: fixed !important; 
                 position: sticky !important; 
                 top: 0 !important; 
+                left: 0;
+                right: 0;
+                height: 60vh !important; 
                 height: 35vh !important; 
                 overflow-y: auto !important; 
                 background: white !important; 
@@ -41,24 +48,51 @@
                 border-bottom: 4px solid #f1f5f9 !important;
                 box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
             }
-            /* Hide non-essential UI in mobile Sahitya focus mode */
-            .sahitya-focus-mode .hide-on-sahitya-focus { display: none !important; }
-            .sahitya-focus-mode #sahityaInput { 
-                height: 40vh !important; 
-                position: relative;
+            
+            .focused-input-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 40vh;
+                background: #f8fafc;
+                padding: 1rem;
                 z-index: 60;
             }
+            .focused-input-container textarea { height: 100px !important; }
         }
         .anga-break { border-right: 2px solid #64748b !important; }
         .avartham-end { border-right: 5px double #0f172a !important; }
         .highlight-beat { background-color: #fef9c3 !important; outline: 2px solid #facc15; z-index: 10; }
+        
+        /* Landscape split view */
+        @media (max-width: 1024px) and (orientation: landscape) {
+            .mobile-preview-sync {
+                height: 100vh !important;
+                width: 50vw !important;
+                right: auto !important;
+                border-right: 4px solid #f1f5f9;
+            }
+            .focused-input-container {
+                height: 100vh !important;
+                width: 50vw !important;
+                left: 50vw !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 p-3 md:p-6">
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print max-h-[95vh] overflow-y-auto lg:sticky lg:top-6">
+        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print max-h-[95vh] overflow-y-auto">
+            <!-- Mode Tabs (Integrated for Desktop, Overlay for Mobile) -->
+            <div class="fixed top-2 left-2 right-2 z-[100] lg:static lg:z-auto lg:top-auto lg:left-auto lg:right-auto lg:mb-6 flex bg-slate-900/90 lg:bg-slate-100 backdrop-blur text-white lg:text-slate-500 p-1 rounded-xl shadow-2xl lg:shadow-none border border-white/10 lg:border-slate-200 no-print">
+                <button onclick="setEditorMode('metadata')" id="tab-metadata" class="flex-1 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg transition bg-indigo-600 text-white">Config</button>
+                <button onclick="setEditorMode('swara')" id="tab-swara" class="flex-1 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg transition">Swara</button>
+                <button onclick="setEditorMode('sahitya')" id="tab-sahitya" class="flex-1 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg transition">Sahitya</button>
+            </div>
+
             <div class="flex justify-between items-start">
                 <div>
                     <h1 class="text-xl font-bold text-slate-900">🎼 Publishing Desk V1.3</h1>
@@ -75,12 +109,13 @@
                 </div>
             </div>
 
-            <div class="flex gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200 hide-on-sahitya-focus">
+            <div id="metadata-section" class="mode-content active space-y-4">
+                <div class="flex gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200">
                 <button onclick="undo()" id="btnUndo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟲ Undo</button>
                 <button onclick="redo()" id="btnRedo" class="flex-1 py-1 px-3 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer" disabled>⟳ Redo</button>
             </div>
 
-            <div class="hide-on-sahitya-focus">
+            <div>
                 <label id="lblLanguageHeader" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Global Sheet Language / భాష</label>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="setLanguage('en')" id="lang-en" class="py-1.5 px-3 rounded-lg border text-xs font-medium bg-white text-slate-700 border-slate-200 cursor-pointer">English</button>
@@ -88,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 space-y-3 hide-on-sahitya-focus">
+            <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 space-y-3">
                 <span id="lblCompHeaders" class="block text-xs font-bold text-indigo-950 uppercase tracking-wider">Composition Headers</span>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -110,7 +145,7 @@
                 </div>
             </div>
 
-            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between hide-on-sahitya-focus">
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
                     <span id="lblMatrixTitle" class="block text-xs font-bold text-slate-700">16 Swarasthanas Scale Settings</span>
                     <p id="lblMatrixDesc" class="text-[10px] text-slate-400">Map notes, Arohana, and Avarohana parameters.</p>
@@ -120,7 +155,7 @@
                 </button>
             </div>
 
-            <div class="grid grid-cols-2 gap-3 hide-on-sahitya-focus">
+            <div class="grid grid-cols-2 gap-3">
                 <div class="flex flex-col">
                     <label id="lblTalaSelect" class="block text-xs font-bold text-slate-600 uppercase mb-1">Suladi Sapta Talas</label>
                     <select id="talaSelect" onchange="onTalaDropdownChange()" class="w-full h-9 block rounded-lg border border-slate-300 px-2 bg-white text-xs font-medium focus:outline-none text-slate-900 focus:ring-1 focus:ring-indigo-500">
@@ -145,23 +180,32 @@
                         <option value="exercise" id="optExercise">Exercise Mode (Hide Lyrics)</option>
                     </select>
                 </div>
+                </div>
             </div>
 
-            <div class="space-y-3">
-                <div class="hide-on-sahitya-focus">
+            <div id="swara-section" class="mode-content space-y-3">
+                <div class="lg:block">
                     <div class="flex justify-between items-center mb-1">
                         <label id="lblSwaraInput" class="block text-xs font-bold text-slate-600 uppercase">Swaras Notation Text</label>
+                        <button onclick="setEditorMode('metadata')" class="lg:hidden text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">← Back to Config</button>
                         <span class="text-[10px] text-indigo-600 font-mono bg-indigo-50 px-1 py-0.5 rounded">&lt;p&gt;, &lt;ap&gt;, &lt;ch&gt;, &lt;chi&gt; sections</span>
                     </div>
-                    <textarea id="swaraInput" rows="6" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl notation-font text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type swaras..."></textarea>
-                </div>
-                <div>
-                    <label id="lblSahityaInput" class="block text-xs font-bold text-slate-600 uppercase mb-1">Sahitya Lyrics Text</label>
-                    <textarea id="sahityaInput" inputmode="url" rows="5" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:outline-none focus:ring-1 focus:ring-slate-400" placeholder="Type lyric syllables matching swara tokens..."></textarea>
+                    <textarea id="swaraInput" rows="3" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl notation-font text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 h-28 lg:h-48" placeholder="Type swaras..."></textarea>
                 </div>
             </div>
 
-            <div class="flex gap-2 hide-on-sahitya-focus">
+            <div id="sahitya-section" class="mode-content space-y-3">
+                <div class="lg:block">
+                    <div class="flex justify-between items-center mb-1">
+                    <label id="lblSahityaInput" class="block text-xs font-bold text-slate-600 uppercase mb-1">Sahitya Lyrics Text</label>
+                        <button onclick="setEditorMode('metadata')" class="lg:hidden text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">← Back to Config</button>
+                    </div>
+                    <textarea id="sahityaInput" inputmode="url" rows="3" oninput="handleInputChange();" onkeyup="handleHighlight()" onclick="handleHighlight()" class="w-full p-2.5 border border-slate-300 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 h-28 lg:h-48" placeholder="Type lyric syllables..."></textarea>
+                </div>
+            </div>
+
+            <div id="footer-actions" class="flex gap-2 pt-4 border-t border-slate-100">
+            <div class="flex gap-2">
                 <button onclick="saveToLocal()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">💾 Save Sheet</button>
                 <button onclick="triggerPrintWithPreCheck()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 rounded-xl text-xs transition shadow-sm cursor-pointer">🖨️ Export PDF</button>
             </div>
@@ -277,6 +321,44 @@
     <script>
         let currentLanguage = 'te';
         
+        let editorMode = 'metadata';
+        function setEditorMode(mode) {
+            editorMode = mode;
+            document.querySelectorAll('.mode-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('bg-indigo-600', 'text-white'));
+            
+            document.getElementById(`${mode}-section`).classList.add('active');
+            if (document.getElementById(`tab-${mode}`)) document.getElementById(`tab-${mode}`).classList.add('bg-indigo-600', 'text-white');
+            
+            const previewPane = document.getElementById('previewPane');
+            const swaraSection = document.getElementById('swara-section');
+            const sahityaSection = document.getElementById('sahitya-section');
+            const isMobile = window.innerWidth < 1024;
+            
+            if (isMobile) {
+                if (mode === 'metadata') {
+                    previewPane.classList.add('hidden');
+                } else {
+                    previewPane.classList.remove('hidden');
+                }
+
+                if (mode === 'swara' || mode === 'sahitya') {
+                    previewPane.classList.add('mobile-preview-sync');
+                    if (mode === 'swara') swaraSection.classList.add('focused-input-container');
+                    else sahityaSection.classList.add('focused-input-container');
+                } else {
+                    previewPane.classList.remove('mobile-preview-sync');
+                    swaraSection.classList.remove('focused-input-container');
+                    sahityaSection.classList.remove('focused-input-container');
+                }
+            } else {
+                previewPane.classList.remove('hidden', 'mobile-preview-sync');
+                swaraSection.classList.remove('focused-input-container');
+                sahityaSection.classList.remove('focused-input-container');
+            }
+            parseAndRender(false);
+        }
+
         let metaTitles = { en: "", te: "" };
         let metaComposers = { en: "", te: "" };
         let metaRagas = { en: "", te: "" };
@@ -457,6 +539,7 @@
                 document.body.classList.remove('sahitya-focus-mode');
             }
 
+            if (active === sahityaArea && window.innerWidth < 1024) previewPane.classList.add('mobile-preview-sync');
             const textBeforeCursor = active.value.substring(0, active.selectionStart);
             const linesBefore = textBeforeCursor.split('\n');
             focusedLine = linesBefore.length - 1;
@@ -826,13 +909,25 @@
                     if (foundIdx !== -1) {
                         sahityaLinePointer = foundIdx + 1;
                     }
+                    // Sync Sahitya: Skip empty lines and consume tag if it matches
+                    while (sahityaLines[sahityaLinePointer] !== undefined && sahityaLines[sahityaLinePointer].trim() === '') {
+                        sahityaLinePointer++;
+                    }
                     
+                    if (sahityaLines[sahityaLinePointer] && sahityaLines[sahityaLinePointer].trim().startsWith('<')) {
+                        sahityaLinePointer++;
+                    }
                     return;
                 }
                 if (!currentSection) {
                     currentSection = document.createElement('div');
                     currentSection.className = "break-inside-avoid mb-6";
                     outputSheet.appendChild(currentSection);
+                }
+                
+                // Skip empty lines in sahitya to find content
+                while (sahityaLines[sahityaLinePointer] !== undefined && sahityaLines[sahityaLinePointer].trim() === '') {
+                    sahityaLinePointer++;
                 }
 
                 const swaraBeats = tokenizeLineData(line, true);
