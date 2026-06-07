@@ -357,6 +357,13 @@
                     div.innerText = translatedText;
                     currentSection.appendChild(div); 
                     
+                    // Sync Sahitya: Re-align if a matching tag is found anywhere in Sahitya
+                    let swaraTag = trimmed.trim().toLowerCase();
+                    let foundIdx = sahityaLines.findIndex(l => l.trim().toLowerCase() === swaraTag);
+                    if (foundIdx !== -1) {
+                        sahityaLinePointer = foundIdx + 1;
+                    }
+                    
                     // Sync Sahitya: Skip empty lines and consume tag if it matches
                     while (sahityaLines[sahityaLinePointer] !== undefined && sahityaLines[sahityaLinePointer].trim() === '') {
                         sahityaLinePointer++;
