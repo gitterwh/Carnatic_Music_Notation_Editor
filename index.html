@@ -111,10 +111,20 @@
         };
 
         const structuralLabels = { 
-            en: { raga: "Raga:", tala: "Tala:", composer: "Composer", loading: "Loading Library..." }, 
-            te: { raga: "రాగం:", tala: "తాళం:", composer: "రచయిత", loading: "లైబ్రరీ లోడ్ అవుతోంది..." } 
+            en: { raga: "Raga:", tala: "Tala:", composer: "Composer", loading: "Loading Library...", arohana: "Arohana:", avarohana: "Avarohana:" }, 
+            te: { raga: "రాగం:", tala: "తాళం:", composer: "రచయిత", loading: "లైబ్రరీ లోడ్ అవుతోంది...", arohana: "ఆరోహణ:", avarohana: "అవరోహణ:" } 
         };
-        const sectionMap = { en: { p: "Pallavi", ap: "Anupallavi", ch: "Charanam", chi: "Chittaswaram" }, te: { p: "పల్లవి", ap: "అనుపల్లవి", ch: "చరణం", chi: "చిట్టస్వరం" } };
+        const sectionMap = { 
+            en: { p: "Pallavi", ap: "Anupallavi", ms: "Mukthayi Swaram", ch: "Charanam", chi: "Chittaswaram", janta: "Janta", daatu: "Daatu", hechchu: "Hechchu", hechcchu: "Hechchu", swara: "Swara", swaram: "Swaram", swaras: "Swaras", swaralu: "Swaralu", tala: "Tala", talam: "Talam", sarali: "Sarali" }, 
+            te: { p: "పల్లవి", ap: "అనుపల్లవి", ms: "ముక్తాయి స్వరం", ch: "చరణం", chi: "చిట్టస్వరం", janta: "జంట", daatu: "దాటు", hechchu: "హెచ్చు", hechcchu: "హెచ్చు", swara: "స్వరం", swaram: "స్వరం", swaras: "స్వరాలు", swaralu: "స్వరాలు", tala: "తాళం", talam: "తాళం", sarali: "సరళి" } 
+        };
+        const teluguToEnglishMap = {
+            '\u0C05': 'a', '\u0C06': 'aa', '\u0C07': 'i', '\u0C08': 'ii', '\u0C09': 'u', '\u0C0A': 'uu', '\u0C0B': 'ru', '\u0C0E': 'e', '\u0C0F': 'ee', '\u0C10': 'ai', '\u0C12': 'o', '\u0C13': 'oo', '\u0C14': 'au',
+            '\u0C15': 'ka', '\u0C16': 'kha', '\u0C17': 'ga', '\u0C18': 'gha', '\u0C19': 'gna', '\u0C1A': 'ca', '\u0C1B': 'cha', '\u0C1C': 'ja', '\u0C1D': 'jha', '\u0C1E': 'nya',
+            '\u0C1F': 'ta', '\u0C20': 'tha', '\u0C21': 'da', '\u0C22': 'dha', '\u0C23': 'na', '\u0C24': 'tha', '\u0C25': 'thha', '\u0C26': 'da', '\u0C27': 'dha', '\u0C28': 'na',
+            '\u0C2A': 'pa', '\u0C2B': 'pha', '\u0C2C': 'ba', '\u0C2D': 'bha', '\u0C2E': 'ma', '\u0C2F': 'ya', '\u0C30': 'ra', '\u0C31': 'ra', '\u0C32': 'la', '\u0C33': 'la', '\u0C34': 'lla', '\u0C35': 'va', '\u0C36': 'sha', '\u0C37': 'sha', '\u0C38': 'sa', '\u0C39': 'ha',
+            '\u0C3E': 'aa', '\u0C3F': 'i', '\u0C40': 'ii', '\u0C41': 'u', '\u0C42': 'uu', '\u0C43': 'ru', '\u0C46': 'e', '\u0C47': 'ee', '\u0C48': 'ai', '\u0C4A': 'o', '\u0C4B': 'oo', '\u0C4C': 'au', '\u0C4D': '', '\u0C01': 'm', '\u0C02': 'm', '\u0C03': 'h'
+        };
         const scriptMap = { en: { s: "S", r: "R", g: "G", m: "M", p: "P", d: "D", n: "N", comma: ",", semicolon: ";" }, te: { s: "స", r: "రి", g: "గ", m: "మ", p: "ప", d: "ద", n: "ని", comma: ",", semicolon: ";" } };
         const normalizationMap = { "స": "s", "రి": "r", "గ": "g", "మ": "m", "ప": "p", "ద": "d", "ని": "n", "న": "n", "s": "s", "r": "r", "g": "g", "m": "m", "p": "p", "d": "d", "n": "n" };
         const talaBlueprints = { adi: { beats: 8, bars: [4, 6] }, varna_adi: { beats: 16, bars: [8, 12] }, adi_double: { beats: 16, bars: [4, 6, 8, 12, 14] }, dhruva: { beats: 14, bars: [4, 6, 10] }, matya: { beats: 10, bars: [4, 6] }, rupaka: { beats: 6, bars: [2] }, jhampa: { beats: 10, bars: [7, 8] }, triputa: { beats: 7, bars: [3, 5] }, ata: { beats: 14, bars: [5, 10] }, eka: { beats: 4, bars: [] } };
@@ -234,8 +244,14 @@
         function tokenizeLineData(raw, isSwara) {
             let trimmed = raw.trim(); if (!trimmed) return [];
             if (isSwara && trimmed.startsWith('<')) return [trimmed];
+            
+            if (!isSwara) {
+                // Expanded Tokenizer: Matches Telugu Aksharas, English words, numbers, or periods
+                const teluguRegex = /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]/g;
+                return trimmed.match(teluguRegex) || [];
+            }
+
             let tokens = trimmed.split(/\s+/).flatMap(w => w.match(/qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g) || [w]);
-            if (!isSwara) return tokens;
             let grouped = [], current = [], inSpeed = false;
             tokens.forEach(t => {
                 if (['ql','qll','qlll'].includes(t)) { inSpeed = true; current.push(t); }
@@ -245,6 +261,32 @@
                 else grouped.push(t);
             });
             return grouped;
+        }
+
+        function transliterateTeluguToEnglish(token) {
+            if (!token || token === '.') return "";
+            if (/^[a-zA-Z0-9\u0027]+$/.test(token)) return token;
+            let res = "";
+            for (let i = 0; i < token.length; i++) {
+                let char = token[i];
+                let mapped = teluguToEnglishMap[char] || "";
+                if (char === '\u0C4D') {
+                    if (res.endsWith('a')) res = res.slice(0, -1);
+                } else if (mapped) {
+                    if (res.endsWith('a') && "aeiouāīūēō".includes(mapped[0]) && i > 0) {
+                        res = res.slice(0, -1) + mapped;
+                    } else res += mapped;
+                }
+                else res += char;
+            }
+            return res.replace(/aa/g, 'ā').replace(/ii/g, 'ī').replace(/uu/g, 'ū').replace(/ee/g, 'ē').replace(/oo/g, 'ō');
+        }
+
+        function getAtomicCount(beatBlock) {
+            if (!beatBlock || beatBlock === ',' || beatBlock === ';') return 1;
+            // Matches atoms within a block (handling speed markers)
+            const atoms = beatBlock.match(/[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;cC]/g);
+            return atoms ? atoms.length : 1;
         }
 
         function transliterateScale(str) {
@@ -277,40 +319,80 @@
             document.getElementById('lblTala').innerText = structuralLabels[lang].tala;
             document.getElementById('composerContainer').className = comp ? "flex flex-col items-center" : "hidden";
             
-            let sAro = transliterateScale(d.arohana || ""), sAva = transliterateScale(d.avarohana || "");
-            document.getElementById('metaScaleText').innerHTML = (sAro || sAva) ? `${sAro} / ${sAva}` : "";
+            const sAro = transliterateScale(d.arohana || d.arohanam || "");
+            const sAva = transliterateScale(d.avarohana || d.avarohanam || "");
+            const labels = structuralLabels[lang];
+            let scaleHTML = "";
+            scaleHTML += `<div class="flex flex-col md:flex-row items-center md:justify-center md:gap-x-6 gap-y-1">`;
+            if (sAro) scaleHTML += `<div class="flex gap-x-2"><span>${labels.arohana}</span> <span class="font-bold">${sAro}</span></div>`;
+            if (sAva) scaleHTML += `<div class="flex gap-x-2"><span>${labels.avarohana}</span> <span class="font-bold">${sAva}</span></div>`;
+            scaleHTML += `</div>`;
+            document.getElementById('metaScaleText').innerHTML = scaleHTML;
 
-            const blueprint = talaBlueprints[d.tala] || talaBlueprints.rupaka;
-            const swaraLines = d.swaras.split('\n'), sahityaLines = d.sahitya.split('\n');
+            const talaKey = d.tala || 'adi';
+            const blueprint = talaBlueprints[talaKey] || talaBlueprints.rupaka;
+            const swaraLines = (d.swaras || "").split('\n');
+            const sahityaLines = (d.sahitya || "").split('\n');
             const output = document.getElementById('outputSheet');
             output.innerHTML = '';
             let currentSection = null;
+            let sahityaLinePointer = 0;
+            const isExercise = (d.compType === 'exercise' || d.type === 'exercise');
 
             swaraLines.forEach((line, idx) => {
                 const trimmed = line.trim();
-                if (!trimmed && !(sahityaLines[idx] && sahityaLines[idx].trim())) return;
+                if (!trimmed) return;
+
                 if (trimmed.startsWith('<')) {
                     currentSection = document.createElement('div');
                     currentSection.className = "mb-8 break-inside-avoid";
                     output.appendChild(currentSection);
-                    let token = trimmed.replace(/[<>]/g, '').toLowerCase();
+                    let rawText = trimmed.replace(/[<>]/g, '');
+                    let translatedText = rawText.split(/\s+/).map(word => {
+                        let key = word.toLowerCase();
+                        return sectionMap[lang][key] || word;
+                    }).join(' ');
                     let div = document.createElement('div');
                     div.className = "text-center py-2 border-y border-dashed border-slate-300 my-4 font-serif font-bold text-indigo-900 text-sm bg-slate-50";
-                    div.innerText = sectionMap[lang][token] || token.toUpperCase();
-                    currentSection.appendChild(div); return;
+                    div.innerText = translatedText;
+                    currentSection.appendChild(div); 
+                    
+                    // Sync Sahitya: Skip empty lines and consume tag if it matches
+                    while (sahityaLines[sahityaLinePointer] !== undefined && sahityaLines[sahityaLinePointer].trim() === '') {
+                        sahityaLinePointer++;
+                    }
+                    if (sahityaLines[sahityaLinePointer] && sahityaLines[sahityaLinePointer].trim().startsWith('<')) {
+                        sahityaLinePointer++;
+                    }
+                    return;
                 }
                 if (!currentSection) { currentSection = document.createElement('div'); currentSection.className = "mb-8 break-inside-avoid"; output.appendChild(currentSection); }
                 
-                const sBeats = tokenizeLineData(line, true), lyBeats = tokenizeLineData(sahityaLines[idx] || '', false);
+                // Skip empty lines in sahitya
+                while (sahityaLines[sahityaLinePointer] !== undefined && sahityaLines[sahityaLinePointer].trim() === '') {
+                    sahityaLinePointer++;
+                }
+
+                const sBeats = tokenizeLineData(line, true);
+                let currentSahityaLine = '';
+                if (sahityaLines[sahityaLinePointer] !== undefined && !sahityaLines[sahityaLinePointer].trim().startsWith('<')) {
+                    currentSahityaLine = sahityaLines[sahityaLinePointer++];
+                }
+                const lyTokens = tokenizeLineData(currentSahityaLine, false);
+                let lyIndex = 0;
+
                 const grid = document.createElement('div');
                 grid.className = `grid bg-white border border-slate-200 rounded-lg overflow-hidden w-full mb-2`;
                 grid.style.gridTemplateColumns = `repeat(${blueprint.beats}, minmax(0, 1fr))`;
                 
                 for (let i = 0; i < blueprint.beats; i++) {
+                    const currentBeatSwara = sBeats[i] || ',';
+                    const atomsInBeat = getAtomicCount(currentBeatSwara);
+                    
                     const tile = document.createElement('div');
                     tile.className = "p-2 flex flex-col justify-between items-center min-h-[64px] border-r border-slate-100 tile-cell";
                     
-                    const isDoubleBar = (i === blueprint.beats - 1) || (d.tala === 'adi_double' && i === 7);
+                    const isDoubleBar = (i === blueprint.beats - 1) || (talaKey === 'adi_double' && i === 7);
                     if (isDoubleBar) {
                         tile.classList.add("avartham-end");
                     } else if (blueprint.bars.includes(i + 1)) {
@@ -319,13 +401,27 @@
                     
                     const sDiv = document.createElement('div');
                     sDiv.className = "w-full text-center flex justify-center items-center h-8 text-slate-900 font-mono text-lg";
-                    sDiv.innerHTML = parseBeatBlockToHTML(sBeats[i] || ',');
+                    sDiv.innerHTML = parseBeatBlockToHTML(currentBeatSwara);
                     tile.appendChild(sDiv);
                     
-                    if (d.compType !== 'exercise') {
+                    if (!isExercise) {
+                        let beatSahitya = [];
+                        for(let a=0; a < atomsInBeat; a++) {
+                            let token = lyTokens[lyIndex++] || '';
+                            if (token === 'c' || token === ',' || token === '.') {
+                                beatSahitya.push('<span class="opacity-40">.</span>');
+                            } else if (token) {
+                                let en = transliterateTeluguToEnglish(token);
+                                if (currentLanguage === 'en') {
+                                    beatSahitya.push(`<span class="text-slate-800 font-medium">${en || token}</span>`);
+                                } else {
+                                    beatSahitya.push(`<span>${token}</span>`);
+                                }
+                            } else beatSahitya.push('');
+                        }
                         const lyDiv = document.createElement('div');
-                        lyDiv.className = "text-center text-xs text-slate-500 truncate w-full mt-2 font-sans font-medium tracking-wide border-t border-slate-50 pt-1";
-                        lyDiv.innerText = (lyBeats[i] === ',' || lyBeats[i] === '_') ? '' : (lyBeats[i] || '');
+                        lyDiv.className = "text-center text-[11px] text-slate-700 w-full mt-2 font-sans font-semibold tracking-wide border-t border-slate-50 pt-1 leading-tight flex justify-around gap-1";
+                        lyDiv.innerHTML = beatSahitya.join(' ');
                         tile.appendChild(lyDiv);
                     }
                     grid.appendChild(tile);
