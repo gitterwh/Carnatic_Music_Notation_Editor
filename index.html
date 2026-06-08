@@ -77,12 +77,12 @@
         </div>
 
         <!-- View 3: Notation Viewer -->
-        <div id="view-viewer" class="hidden bg-white shadow-xl rounded-3xl p-6 md:p-12 print-sheet relative">
-            <button onclick="showView('lessons')" class="no-print absolute top-6 left-6 flex items-center gap-2 text-slate-400 font-bold text-xs hover:text-indigo-600">
+        <div id="view-viewer" class="hidden bg-white shadow-xl rounded-3xl p-4 md:p-12 print-sheet relative">
+            <button onclick="showView('lessons')" class="no-print flex items-center gap-2 text-slate-400 font-bold text-xs hover:text-indigo-600 mb-6 md:absolute md:top-10 md:left-10 md:mb-0">
                 ← Close Lesson
             </button>
             <div class="border-b-4 border-slate-900 pb-6 mb-8 text-center space-y-3">
-                <h2 id="pubMainTitle" class="text-4xl font-serif font-black text-slate-900 tracking-tight uppercase"></h2>
+                <h2 id="pubMainTitle" class="text-2xl md:text-4xl font-serif font-black text-slate-900 tracking-tight uppercase"></h2>
                 <div id="composerContainer" class="flex flex-col items-center">
                     <span id="pubLabelComposer" class="text-[10px] font-sans tracking-widest text-slate-400 font-bold uppercase"></span>
                     <p id="pubComposer" class="text-sm font-sans tracking-wide text-slate-600 font-semibold uppercase"></p>
@@ -389,7 +389,7 @@
                 let lyIndex = 0;
 
                 const grid = document.createElement('div');
-                grid.className = `grid bg-white border border-slate-200 rounded-lg overflow-hidden w-full mb-2`;
+                grid.className = `grid bg-white border border-slate-200 rounded-lg overflow-hidden w-full mb-2 min-w-[750px] lg:min-w-full`;
                 grid.style.gridTemplateColumns = `repeat(${blueprint.beats}, minmax(0, 1fr))`;
                 
                 for (let i = 0; i < blueprint.beats; i++) {
