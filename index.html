@@ -78,16 +78,22 @@
 
         <!-- View 3: Notation Viewer -->
         <div id="view-viewer" class="hidden bg-white shadow-xl rounded-3xl p-4 md:p-12 print-sheet relative">
+        <div id="view-viewer" class="hidden bg-white shadow-xl rounded-3xl p-2 md:p-12 print-sheet relative">
             <button onclick="showView('lessons')" class="no-print flex items-center gap-2 text-slate-400 font-bold text-xs hover:text-indigo-600 mb-6 md:absolute md:top-10 md:left-10 md:mb-0">
                 ← Close Lesson
             </button>
             <div class="border-b-4 border-slate-900 pb-4 md:pb-6 mb-6 md:mb-8 text-center space-y-2 md:space-y-3">
+            <div class="border-b-4 border-slate-900 pb-3 md:pb-6 mb-4 md:mb-8 text-center space-y-2 md:space-y-3">
                 <h2 id="pubMainTitle" class="text-xl md:text-4xl font-serif font-black text-slate-900 tracking-tight uppercase leading-tight"></h2>
                 <div id="composerContainer" class="flex flex-col items-center py-1">
                     <span id="pubLabelComposer" class="text-[10px] font-sans tracking-widest text-slate-400 font-bold uppercase"></span>
                     <p id="pubComposer" class="text-sm font-sans tracking-wide text-slate-600 font-semibold uppercase"></p>
                 </div>
                 <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 text-sm font-serif text-slate-700 font-medium max-w-md mx-auto">
+                <p class="text-[9px] md:text-[11px] text-slate-400 font-bold uppercase tracking-widest italic opacity-90 max-w-lg mx-auto leading-relaxed px-4">
+                    Based on notes shared by <span class="text-slate-600">Guru PSSR Jagannadham</span> <br class="md:hidden"> of <span class="text-indigo-600">Sri Sai Lakshmi Music and Dance Institute</span>
+                </p>
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 text-sm font-serif text-slate-700 font-medium max-w-md mx-auto">
                     <div class="text-left"><span id="lblRaga"></span> <span id="metaRagaName" class="font-sans font-normal ml-1"></span></div>
                     <div class="text-right"><span id="lblTala"></span> <span id="metaTalaName" class="font-sans font-normal ml-1"></span></div>
                 </div>
@@ -398,6 +404,7 @@
                     
                     const tile = document.createElement('div');
                     tile.className = "p-1 md:p-2 flex flex-col justify-between items-center min-h-[48px] md:min-h-[64px] border-r border-slate-100 tile-cell";
+                    tile.className = "px-0.5 py-1 md:p-2 flex flex-col justify-between items-center min-h-[48px] md:min-h-[64px] border-r border-slate-100 tile-cell";
                     
                     const isDoubleBar = (i === blueprint.beats - 1) || (talaKey === 'adi_double' && i === 7);
                     if (isDoubleBar) {
@@ -408,6 +415,7 @@
                     
                     const sDiv = document.createElement('div');
                     sDiv.className = "w-full text-center flex justify-center items-center h-6 md:h-8 text-slate-900 font-mono text-[10px] sm:text-sm md:text-lg tracking-tighter md:tracking-normal";
+                    sDiv.className = "w-full text-center flex justify-center items-center h-6 md:h-8 text-slate-900 font-mono text-[13px] sm:text-sm md:text-lg tracking-tighter md:tracking-normal";
                     sDiv.innerHTML = parseBeatBlockToHTML(currentBeatSwara);
                     tile.appendChild(sDiv);
                     
