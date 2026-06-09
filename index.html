@@ -397,7 +397,7 @@
                 let lyIndex = 0;
 
                 // Logic to break rows on mobile portrait to prevent horizontal overflow/zoom issues
-                let beatsPerRow = blueprint.beats;
+                let beatsPerRow = blueprint.beats; // Initialize beatsPerRow
                 if (window.innerWidth < 768) {
                     if (blueprint.beats > 8) {
                         if (blueprint.beats === 14) beatsPerRow = 7;
