@@ -391,16 +391,27 @@
                 const lyTokens = tokenizeLineData(currentSahityaLine, false);
                 let lyIndex = 0;
 
-                const grid = document.createElement('div');
-                grid.className = `grid bg-white border border-slate-200 rounded-lg overflow-hidden w-full mb-2`;
-                grid.style.gridTemplateColumns = `repeat(${blueprint.beats}, minmax(0, 1fr))`;
-                
-                for (let i = 0; i < blueprint.beats; i++) {
-                    const currentBeatSwara = sBeats[i] || ',';
-                    const atomsInBeat = getAtomicCount(currentBeatSwara);
-                    
+                // Logic to break rows on mobile portrait
+                let beatsPerRow = blueprint.beats;
+                if (window.innerWidth < 768 && blueprint.beats > 8) {
+                    if (blueprint.beats === 14) beatsPerRow = 7;
+                    else if (blueprint.beats === 10) beatsPerRow = 5;
+                    else if (blueprint.beats === 16) beatsPerRow = 8;
+                }
+
+                const rowsCount = Math.ceil(blueprint.beats / beatsPerRow);
+
+                for (let r = 0; r < rowsCount; r++) {
+                    const grid = document.createElement('div');
+                    grid.className = `grid bg-white border border-slate-200 rounded-lg overflow-hidden w-full mb-2`;
+                    grid.style.gridTemplateColumns = `repeat(${beatsPerRow}, minmax(0, 1fr))`;
+
+                    for (let i = r * beatsPerRow; i < Math.min((r + 1) * beatsPerRow, blueprint.beats); i++) {
+                        const currentBeatSwara = sBeats[i] || ',';
+                        const atomsInBeat = getAtomicCount(currentBeatSwara);
+
                     const tile = document.createElement('div');
-                    tile.className = "px-0.5 py-1 md:p-2 flex flex-col justify-between items-center min-h-[48px] md:min-h-[64px] border-r border-slate-100 tile-cell";
+                    tile.className = "px-1 py-1.5 md:p-2 flex flex-col justify-between items-center min-h-[52px] md:min-h-[64px] border-r border-slate-100 tile-cell";
                     
                     const isDoubleBar = (i === blueprint.beats - 1) || (talaKey === 'adi_double' && i === 7);
                     if (isDoubleBar) {
@@ -410,7 +421,7 @@
                     }
                     
                     const sDiv = document.createElement('div');
-                    sDiv.className = "w-full text-center flex justify-center items-center h-6 md:h-8 text-slate-900 font-mono text-[13px] sm:text-sm md:text-lg tracking-tighter md:tracking-normal";
+                    sDiv.className = "w-full text-center flex justify-center items-center h-6 md:h-8 text-slate-900 font-mono text-[16px] sm:text-sm md:text-lg tracking-tighter md:tracking-normal";
                     sDiv.innerHTML = parseBeatBlockToHTML(currentBeatSwara);
                     tile.appendChild(sDiv);
                     
@@ -430,13 +441,14 @@
                             } else beatSahitya.push('');
                         }
                         const lyDiv = document.createElement('div');
-                        lyDiv.className = "text-center text-[8px] md:text-[11px] text-slate-700 w-full mt-1 md:mt-2 font-sans font-semibold tracking-tighter md:tracking-wide border-t border-slate-50 pt-0.5 md:pt-1 leading-tight flex justify-around gap-0.5 md:gap-1";
+                        lyDiv.className = "text-center text-[10px] md:text-[11px] text-slate-700 w-full mt-1 md:mt-2 font-sans font-semibold tracking-tighter md:tracking-wide border-t border-slate-50 pt-0.5 md:pt-1 leading-tight flex justify-around gap-0.5 md:gap-1";
                         lyDiv.innerHTML = beatSahitya.join(' ');
                         tile.appendChild(lyDiv);
                     }
                     grid.appendChild(tile);
+                    }
+                    currentSection.appendChild(grid);
                 }
-                currentSection.appendChild(grid);
             });
         }
     </script>
