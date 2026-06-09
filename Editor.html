@@ -84,7 +84,7 @@
 
             <div class="flex justify-between items-start mt-12 lg:mt-0">
                 <div>
-                    <h1 class="text-xl font-bold text-slate-900">🎼 Publishing Desk V1.3</h1>
+                    <h1 class="text-xl font-bold text-slate-900">🎻 Studio Editor V2.1</h1>
                     <p class="text-xs text-slate-500 mt-0.5">Configure scales and manage notation engines.</p>
                 </div>
                 <div class="relative inline-block text-left">
@@ -166,7 +166,7 @@
                         <option value="geetham" id="optGeetham">Geetham Mode (Show Lyrics)</option>
                         <option value="varnam" id="optVarnam">Varnam Mode</option>
                         <option value="krithi" id="optKrithi">Krithi Mode</option>
-                        <option value="exercise" id="optExercise">Exercise Mode (Hide Lyrics)</option>
+                        <option value="exercise" id="optExercise">🥁 Exercise Mode (Hide Lyrics)</option>
                     </select>
                 </div>
                 </div>
@@ -238,9 +238,9 @@
         </div>
 
     </div>
-
-    <div id="ragaModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
-    <div id="ragaModal" onclick="if(event.target === this) toggleModal(false)" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
+    <!-- The outer div is the modal backdrop, the inner div is the modal content -->
+    <div id="ragaModalBackdrop" onclick="if(event.target === this) toggleModal(false)" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden no-print">
+    <div id="ragaModalContent" class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-lg p-5 space-y-4">
         <div class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-lg p-5 space-y-4">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div class="flex-1">
@@ -793,32 +793,33 @@
             if (!trimmed) return [];
             if (isSwaras && trimmed.startsWith('<') && trimmed.endsWith('>')) return [trimmed];
             
-            let regexPattern = isSwaras 
+            const regexPattern = isSwaras 
                 ? /qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g
                 : /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]/g;
             
-            let words = trimmed.split(/\s+/);
-            let unifiedTokens = [];
-            if (!isSwaras) return trimmed.match(regexPattern) || [];
+            if (!isSwaras) {
+                return trimmed.match(regexPattern) || [];
+            } else {
+                let words = trimmed.split(/\s+/);
+                let unifiedTokens = [];
+                words.forEach(word => {
+                    let segmentedAtoms = word.match(regexPattern);
+                    if (segmentedAtoms) unifiedTokens.push(...segmentedAtoms);
+                    else unifiedTokens.push(word);
+                });
 
-            words.forEach(word => {
-                let segmentedAtoms = word.match(regexPattern);
-                if (segmentedAtoms) unifiedTokens.push(...segmentedAtoms);
-                else unifiedTokens.push(word);
-            });
-            if (!isSwaras) return unifiedTokens;
-
-            let grouped = [];
-            let currentGroup = [];
-            let inSpeed = false;
-            unifiedTokens.forEach(t => {
-                if (['ql', 'qll', 'qlll'].includes(t)) { inSpeed = true; currentGroup.push(t); }
-                else if (t === 'e') { currentGroup.push(t); grouped.push(currentGroup.join(' ')); currentGroup = []; inSpeed = false; }
-                else if (inSpeed) currentGroup.push(t);
-                else if (t === 'b') { if (grouped.length > 0) grouped[grouped.length-1] += ' b'; else grouped.push('b'); }
-                else grouped.push(t);
-            });
-            return grouped;
+                let grouped = [];
+                let currentGroup = [];
+                let inSpeed = false;
+                unifiedTokens.forEach(t => {
+                    if (['ql', 'qll', 'qlll'].includes(t)) { inSpeed = true; currentGroup.push(t); }
+                    else if (t === 'e') { currentGroup.push(t); grouped.push(currentGroup.join(' ')); currentGroup = []; inSpeed = false; }
+                    else if (inSpeed) currentGroup.push(t);
+                    else if (t === 'b') { if (grouped.length > 0) grouped[grouped.length-1] += ' b'; else grouped.push('b'); }
+                    else grouped.push(t);
+                });
+                return grouped;
+            }
         }
 
         function transliterateScale(str) {
@@ -954,10 +955,6 @@
                 // Logic to break rows on mobile portrait
                 // Logic to break rows on mobile portrait to prevent horizontal overflow/zoom issues
                 let beatsPerRow = blueprint.beats;
-                if (window.innerWidth < 768 && blueprint.beats > 8) {
-                    if (blueprint.beats === 14) beatsPerRow = 7;
-                    else if (blueprint.beats === 10) beatsPerRow = 5;
-                    else if (blueprint.beats === 16) beatsPerRow = 8;
                 if (window.innerWidth < 768) {
                     if (blueprint.beats > 8) {
                         if (blueprint.beats === 14) beatsPerRow = 7;
