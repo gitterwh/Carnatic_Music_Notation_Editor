@@ -398,15 +398,17 @@
 
                 // Logic to break rows on mobile portrait to prevent horizontal overflow/zoom issues
                 let beatsPerRow = blueprint.beats; // Initialize beatsPerRow
-                if (window.innerWidth < 768) {
-                    if (blueprint.beats > 8) {
-                        if (blueprint.beats === 14) beatsPerRow = 7;
-                        else if (blueprint.beats === 10) beatsPerRow = 5;
-                        else if (blueprint.beats === 16) beatsPerRow = 8;
-                    } else if (blueprint.beats === 8 && window.innerWidth < 450) {
-                        // Break Adi Tala into 4+4 for portrait mode on small phones
-                        beatsPerRow = 4;
-                    }
+                const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+                const isMobileWidth = window.innerWidth < 1024; // Use 1024 to match the LG breakpoint
+
+                if (isPortrait && isMobileWidth) {
+                    if (blueprint.beats === 14) beatsPerRow = 7; // Dhruva, Ata
+                    else if (blueprint.beats === 10) beatsPerRow = 5; // Matya, Jhampa
+                    else if (blueprint.beats === 16) beatsPerRow = 8; // Varna Adi, Adi Double
+                    else if (blueprint.beats === 8 && window.innerWidth < 450) beatsPerRow = 4; // Adi Tala on small phones
+                    else if (blueprint.beats > 8) beatsPerRow = 8; // General case for >8 beats in portrait
+                } else {
+                    // No change: landscape and laptop keep full blueprint.beats (up to 16)
                 }
 
                 const rowsCount = Math.ceil(blueprint.beats / beatsPerRow);
