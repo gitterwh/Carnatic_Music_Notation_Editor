@@ -36,7 +36,7 @@
     <nav class="bg-white border-b border-slate-200 p-4 sticky top-0 z-50 no-print shadow-sm">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showView('categories')">
-                <span class="text-2xl">🎼</span>
+                <span class="text-2xl"></span>
                 <h1 class="text-lg font-bold tracking-tight">Carnatic Studio Viewer</h1>
             </div>
             
@@ -88,7 +88,7 @@
                     <p id="pubComposer" class="text-sm font-sans tracking-wide text-slate-600 font-semibold uppercase"></p>
                 </div>
                 <p class="text-[9px] md:text-[11px] text-slate-400 font-bold uppercase tracking-widest italic opacity-90 max-w-lg mx-auto leading-relaxed px-4">
-                    Based on notes shared by <span class="text-slate-600">Guru PSSR Jagannadham</span> <br class="md:hidden"> of <span class="text-indigo-600">Sri Sai Lakshmi Music and Dance Institute</span>
+                    Based on notes shared by <a href="https://www.youtube.com/@Nadasanathanam" target="_blank" class="text-slate-600 hover:text-indigo-600 underline">Guru PSSR Jagannadham</a> <br class="md:hidden"> of <span class="text-indigo-600">Sri Sai Lakshmi Music and Dance Institute</span>
                 </p>
                 <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 text-sm font-serif text-slate-700 font-medium max-w-md mx-auto">
                     <div class="text-left"><span id="lblRaga"></span> <span id="metaRagaName" class="font-sans font-normal ml-1"></span></div>
@@ -107,7 +107,7 @@
         let lessonManifest = [];
 
         const categoryMeta = {
-            exercise: { icon: "🎹", color: "bg-indigo-50", text: { en: "Exercises", te: "అభ్యాసాలు" } },
+            exercise: { icon: "🥁", color: "bg-indigo-50", text: { en: "Exercises", te: "అభ్యాసాలు" } },
             geetham:  { icon: "📙", color: "bg-orange-50", text: { en: "Geethams", te: "గీతాలు" } },
             varnam:   { icon: "📜", color: "bg-blue-50", text: { en: "Varnams", te: "వర్ణాలు" } },
             krithi:   { icon: "🏛️", color: "bg-emerald-50", text: { en: "Krithis", te: "కృతులు" } }
