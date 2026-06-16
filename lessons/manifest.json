@@ -1,18 +1,18 @@
 [
   {
-    "file": "3_daatuswaras.json",
+    "file": "2_jantaswaras.json",
     "title": {
-      "en": "Daatu Swaras",
-      "te": "దాటు స్వరాలు"
+      "en": "Janta Swaras",
+      "te": "జంట స్వరాలు"
     },
     "type": "exercise",
     "raga": "Mayamalavagowla"
   },
   {
-    "file": "jantaswaras.json",
+    "file": "3_daatuswaras.json",
     "title": {
-      "en": "Janta Swaras",
-      "te": "జంట స్వరాలు"
+      "en": "Daatu Swaras",
+      "te": "దాటు స్వరాలు"
     },
     "type": "exercise",
     "raga": "Mayamalavagowla"
