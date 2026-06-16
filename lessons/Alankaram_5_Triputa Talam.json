@@ -21,13 +21,13 @@
   "swaras": "srgsrgm\nrgmrgmp\ngmpgmpd\nmpdmpdn\npdnpdnsu\nsundsundp\nndpnpdm\ndpmdpmg\npmgpmgr\nmgrmgrs",
   "sahitya": "",
   "selectedSthanas": {
-    "R": "",
-    "G": "",
-    "M": "",
-    "D": "",
-    "N": ""
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
   },
-  "arohana": "",
-  "avarohana": "",
-  "ragaPreset": "custom"
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
 }
