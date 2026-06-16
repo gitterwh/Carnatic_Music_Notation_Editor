@@ -25,5 +25,14 @@
     },
     "type": "exercise",
     "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "4_hechchuswaras.json",
+    "title": {
+      "en": "Hechchu Sthayi",
+      "te": "హెచ్చు స్థాయి స్వరాలు"
+    },
+    "type": "exercise",
+    "raga": "Mayamalawagowla"
   }
 ]
