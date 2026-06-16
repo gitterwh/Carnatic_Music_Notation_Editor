@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Hechchu Sthayi",
+    "te": "హెచ్చు స్థాయి స్వరాలు"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalawagowla",
+    "te": "మాయమాలవగౌళ"
+  },
+  "talaNames": {
+    "en": "Adi",
+    "te": "ఆది తాళం"
+  },
+  "tala": "adi",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "<Hechchu Swara 1>\nSrgmpdnsu\nSu,,,succc\nDnsurusundp\nSundpmgrs\n\n<Hechchu Swara 2>\nSrgmpdnsu\nSu,,,su,,,\nDnsurususurusu\nSurusundpmp\nDnsurusundp\nSundpmgrs\n\n<Hechchu Swara 3>\nSrgmpdnsu\nSu,,,su,,,\nDnsurugurusuru\nSurusundpmp\nDnsurususurusu\nSurusundpmp\nDnsurusundp\nSundpmgrs\n\n<Hechchu Swara 4>\nSrgmpdnsu\nSu,,,su,,,\nDnsurugumuguru\nSurusundpmp\nDnsurugurusuru\nSurusundpmp\nDnsurususurusu\nSurusundpmp\nDnsurusundp\nSundpmgrs\n\n",
+  "sahitya": "Argo/",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
+}
