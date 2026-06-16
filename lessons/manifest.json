@@ -1,5 +1,14 @@
 [
   {
+    "file": "1_saraliswaras.json",
+    "title": {
+      "en": "Sarali Swaras",
+      "te": "సరళీ స్వరాలు"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
     "file": "2_jantaswaras.json",
     "title": {
       "en": "Janta Swaras",
@@ -13,15 +22,6 @@
     "title": {
       "en": "Daatu Swaras",
       "te": "దాటు స్వరాలు"
-    },
-    "type": "exercise",
-    "raga": "Mayamalavagowla"
-  },
-  {
-    "file": "saraliswaras.json",
-    "title": {
-      "en": "Sarali SWARAs",
-      "te": "సరళీ స్వరాలు"
     },
     "type": "exercise",
     "raga": "Mayamalavagowla"
