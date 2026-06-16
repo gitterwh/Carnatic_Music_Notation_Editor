@@ -73,7 +73,7 @@
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
         <!-- Left Side: Editor -->
-        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print overflow-y-auto">
+        <div class="lg:col-span-5 bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 no-print overflow-y-auto min-w-0">
             <!-- Mode Tabs (Integrated for Desktop, Overlay for Mobile) -->
             <div class="mobile-nav-fixed lg:static lg:mb-6 flex bg-slate-900 lg:bg-slate-100 text-white lg:text-slate-500 p-1 lg:rounded-xl shadow-lg lg:shadow-none no-print">
                 <button onclick="setEditorMode('metadata')" id="tab-metadata" class="flex-1 py-2 lg:py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg transition bg-indigo-600 text-white">Config</button>
@@ -206,7 +206,7 @@
         </div>
 
         <!-- Right Side: Preview -->
-        <div id="previewPane" class="lg:col-span-7 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 print-sheet flex flex-col justify-between hidden-mobile overflow-y-auto">
+        <div id="previewPane" class="lg:col-span-7 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 print-sheet flex flex-col justify-between hidden-mobile overflow-y-auto min-w-0">
             <div class="preview-content-container">
                 <div class="border-b-4 border-slate-900 pb-4 mb-6 text-center space-y-2 relative">
                     <h2 id="pubMainTitle" contenteditable="true" onblur="syncViewerToTextareas()" class="text-3xl font-serif font-black text-slate-900 tracking-wide uppercase focus:bg-slate-50 focus:outline-none rounded px-2"></h2>
@@ -480,7 +480,7 @@
         let focusedBeat = -1;
 
         function toggleModal(show) {
-            const modal = document.getElementById('ragaModalBackdrop');
+            const modal = document.getElementById('ragaModal');
             if (show) modal.classList.remove('hidden');
             else modal.classList.add('hidden');
         }
@@ -1082,8 +1082,7 @@
                 const data = JSON.parse(raw);
                 applyStatePayloadToWorkspace(data);
                 setLanguage(data.lang || 'te');
-            } else { clearWorkspace(); setLanguage('te'); } // Also clears and sets language
-            setEditorMode(editorMode); // Ensure editor mode is initialized, especially for preview pane visibility
+            } else { clearWorkspace(); setLanguage('te'); }
         };
 
         // Keyboard accessibility for Modal
