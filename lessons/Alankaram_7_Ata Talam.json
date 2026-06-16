@@ -21,13 +21,13 @@
   "swaras": "sr,g,s,rg,m,m,\nrg,m,r,gm,p,p,\ngm,p,g,mp,d,d,\nmp,d,m,pd,n,n,\npd,n,p,dn,su,su,\nsun,d,su,nd,p,p,\nnd,p,n,dp,m,m,\ndp,m,d,pm,g,g,\npm,g,p,mg,r,r,\nmg,r,m,gr,s,s,",
   "sahitya": "",
   "selectedSthanas": {
-    "R": "",
-    "G": "",
-    "M": "",
-    "D": "",
-    "N": ""
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
   },
-  "arohana": "",
-  "avarohana": "",
-  "ragaPreset": "custom"
+  "arohana": "S R1 G3 M1 P D1 N3 S'",
+  "avarohana": "S' N3 D1 P M1 G3 R1 S",
+  "ragaPreset": "Mayamalavagowla"
 }
