@@ -34,5 +34,68 @@
     },
     "type": "exercise",
     "raga": "Mayamalawagowla"
+  },
+  {
+    "file": "Alankaram_1_Dhruva Talam.json",
+    "title": {
+      "en": "Alankaram 1 - Dhruva TALAM",
+      "te": "అలంకారం 1 - ధ్రువ తాళం "
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_2_Matya Talam.json",
+    "title": {
+      "en": "Alankaram 1 - MaTYA TALAM",
+      "te": "అలంకారం 2 - మఠ్య తాళం "
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_3_Rupaka Talam.json",
+    "title": {
+      "en": "Alankaram 3 - Rupaka Talam",
+      "te": "అలంకారం 3 - రూపక తాళం"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_4_Jhampa Talam.json",
+    "title": {
+      "en": "Alankaram 4 - Jhampa Talam",
+      "te": "అలంకారం 4 - ఝంప తాళం"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_5_Triputa Talam.json",
+    "title": {
+      "en": "Alankaram 5 - Triputa Talam",
+      "te": "అలంకారం 5 - త్రిపుట తాళం"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_6_Eka Talam.json",
+    "title": {
+      "en": "Alankaram 6 - Eka Talam",
+      "te": "అలంకారం 6 - ఏక తాళం"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "Alankaram_7_Ata Talam.json",
+    "title": {
+      "en": "Alankaram 7 - Ata Talam",
+      "te": "అలంకారం 7 - అట తాళం"
+    },
+    "type": "exercise",
+    "raga": "Mayamalavagowla"
   }
 ]
