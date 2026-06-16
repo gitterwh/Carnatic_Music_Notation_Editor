@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 7 - Ata Talam",
+    "te": "అలంకారం 7 - అట తాళం"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Ata Tala",
+    "te": "అట తాళం"
+  },
+  "tala": "ata",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "sr,g,s,rg,m,m,\nrg,m,r,gm,p,p,\ngm,p,g,mp,d,d,\nmp,d,m,pd,n,n,\npd,n,p,dn,su,su,\nsun,d,su,nd,p,p,\nnd,p,n,dp,m,m,\ndp,m,d,pm,g,g,\npm,g,p,mg,r,r,\nmg,r,m,gr,s,s,",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

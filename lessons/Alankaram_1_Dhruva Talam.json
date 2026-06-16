@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 1 - Dhruva TALAM",
+    "te": "అలంకారం 1 - ధ్రువ తాళం "
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Dhruva Tala",
+    "te": "ధ్రువ తాళం "
+  },
+  "tala": "dhruva",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "srgmgrsrgrsrgm\nrgmpmgrgmgrgmp\ngmpdpmgmpmgmpd\nmpdndpmpdpmpdn\npdnsundpdndpdnsu\nsundpdnsundnsundp\nndpmpdndpdndpm\ndpmgmpdpmpdpmg\npmgrgmpmgmpmgr\nmgrsrgmgrgmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

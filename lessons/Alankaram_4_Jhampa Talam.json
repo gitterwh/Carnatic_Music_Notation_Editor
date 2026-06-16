@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 4 - Jhampa Talam",
+    "te": "అలంకారం 4 - ఝంప తాళం"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Jhampa Tala",
+    "te": "ఝంప తాళం"
+  },
+  "tala": "jhampa",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "srgsrsrgm,\nrgmrgrgmp,\ngmpgmgmpd,\nmpdmpmpdn,\npdnpdpdnsu,\nsundsunsundp,\nndpndndpm,\ndpmdpdpmg,\npmgpmpmgr,\nmgrmgmgrs,",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

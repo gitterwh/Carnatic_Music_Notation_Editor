@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 5 - Triputa Talam",
+    "te": "అలంకారం 5 - త్రిపుట తాళం"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Triputa Tala",
+    "te": "త్రిపుట తాళం"
+  },
+  "tala": "triputa",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "srgsrgm\nrgmrgmp\ngmpgmpd\nmpdmpdn\npdnpdnsu\nsundsundp\nndpnpdm\ndpmdpmg\npmgpmgr\nmgrmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

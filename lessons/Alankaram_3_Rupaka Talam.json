@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 3 - Rupaka Talam",
+    "te": "అలంకారం 3 - రూపక తాళం"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Rupaka Tala",
+    "te": "రూపక తాళం"
+  },
+  "tala": "rupaka",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "srsrgm\nrgrgmp\ngmgmpd\nmpmpdn\npdpdnsu\nsunsundp\nndndpm\ndpdpmg\npmpmgr\nmgmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

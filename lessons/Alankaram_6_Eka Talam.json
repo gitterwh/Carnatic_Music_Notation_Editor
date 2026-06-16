@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 6 - Eka Talam",
+    "te": "అలంకారం 6 - ఏక తాళం"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Eka Tala",
+    "te": "ఏక తాళం"
+  },
+  "tala": "eka",
+  "compType": "exercise",
+  "lang": "en",
+  "swaras": "srgm\nrgmp\ngmpd\nmpdn\npdnsu\nsundp\nndpm\ndpmg\npmgr\nmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}

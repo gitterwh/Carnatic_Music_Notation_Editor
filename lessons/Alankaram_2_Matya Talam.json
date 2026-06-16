@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Alankaram 1 - MaTYA TALAM",
+    "te": "అలంకారం 2 - మఠ్య తాళం "
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Mayamalavagowla",
+    "te": "మాయామాళవగౌళ"
+  },
+  "talaNames": {
+    "en": "Matya Tala",
+    "te": "మఠ్య తాళం"
+  },
+  "tala": "matya",
+  "compType": "exercise",
+  "lang": "te",
+  "swaras": "srgrsrsrgm\nrgmgrgrgmp\ngmpmgmgmpd\nmpdpmpmpdn\npdndpdpdnsu\nsundnsunsundp\nndpdndndpm\ndpmpdpdpmg\npmgmpmpmgr\nmgrgmgmgrs",
+  "sahitya": "",
+  "selectedSthanas": {
+    "R": "",
+    "G": "",
+    "M": "",
+    "D": "",
+    "N": ""
+  },
+  "arohana": "",
+  "avarohana": "",
+  "ragaPreset": "custom"
+}
