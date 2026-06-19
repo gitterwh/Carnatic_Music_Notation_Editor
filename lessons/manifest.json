@@ -106,5 +106,14 @@
     },
     "type": "geetham",
     "raga": "Mayamalavagowla"
+  },
+  {
+    "file": "G2_Kundagowra.json",
+    "title": {
+      "en": "Geetham 2 - KUNDA GOWRA GOURI VARA",
+      "te": "గీతం 2 - కుంద గౌర గౌరి వర"
+    },
+    "type": "geetham",
+    "raga": "Malahari"
   }
 ]
