@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham 2 - KUNDA GOWRA GOURI VARA",
+    "te": "గీతం 2 - కుంద గౌర గౌరి వర"
+  },
+  "composers": {
+    "en": "",
+    "te": "పురంధర దాస"
+  },
+  "ragas": {
+    "en": "Malahari",
+    "te": "మలహరి (15వ, మాయామాళవ గౌళ జన్య)"
+  },
+  "talaNames": {
+    "en": "Rupaka Tala",
+    "te": "రూపక"
+  },
+  "tala": "rupaka",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "dpmgrs\nrmpdmp\ndrusudp\ndpmgrs\ns,r,r,\ndpmgrs\nsrpmgr\nsrgris,\npmrudusu\nluhsn,\nvmvkkr\ntsk,\n\nmdmmmd\nn,\nmdrumn\nkm,",
+  "sahitya": "కుంద గౌర\nగౌరి వర\nమంది రాయు\nమాన మకుట\nమందార\nకుసు మాకర\nమకర దం\nవాసితునా\nహేమ కూట\nసింహాసన\nవిరు వాంక్ష\nకరు తాంకర\n\nమందారం\nచంద మామ\nమందంకిని\nమంది రాయు\nమాన మకుట\nమందారం",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 M1 P D1 S'",
+  "avarohana": "S' D1 P M1 G3 R1 S",
+  "ragaPreset": "custom"
+}
