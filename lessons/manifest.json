@@ -115,5 +115,14 @@
     },
     "type": "geetham",
     "raga": "Malahari"
+  },
+  {
+    "file": "G3_Keraya_Neeranu.json",
+    "title": {
+      "en": "Geetham 3 - KERAYA NEERANU",
+      "te": "గీతం 3 - కెరయ నీరను"
+    },
+    "type": "geetham",
+    "raga": "Malahari"
   }
 ]
