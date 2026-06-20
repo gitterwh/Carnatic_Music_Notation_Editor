@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham 4 - PADUMANABHA",
+    "te": "గీతం 4 - పదుమనాభ"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Malahari",
+    "te": "మలహరి"
+  },
+  "talaNames": {
+    "en": "Triputa Tala",
+    "te": "త్రిపుట తాళం"
+  },
+  "tala": "triputa",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "r s dl s , s ,\nm g r m m p ,\ns d , d p m p,\nd d p m g r s,\nr s dl s , s ,\nm g r m m p ,\ns d , d p m p,\nd d p m g r s,\np m p d su d su\nru su d d su d p\nd d p p , p m\nr m m p , p ,\nd d p p , p m\nr , m m g r s\ns , s d d d p\np , p m g r s\nd su, d p m p\nd d p m g r s\nru su , d p m p\nd d p m g r s\npmpdsudsu\nrusuddsudp\nddpp,pm\nrmmp,p,\nddpp,pm\nr,mmgrs\ns,sdddp\np,pmgrs",
+  "sahitya": "పదుమ నా. భా.\nపరమ పురు ష.\nపరం. జ్యో . . తి\nస్వరూ . పా . . .\nవిదుర వం ద్య .\nవిమల చరి తా . \nవిహం. గా. . ది\nరో . హ ణ . . .\nఉదది నివా . స\nఉరగ శయ . న\nఉ.న్న తో . న్నత\nమహి . మా .\nయుదుకు లో. త్తను\nయ.జ్ఞ ర . క్షక\nయ.జ్ఞ శి.క్షక\nరామ నా . . మ\nవిభీ షణ పా . \nలకా .నమో నమో\nఇభా వర దా . \nయకా .నమో నమో\nశు భా . ప్రద సును\nనో . ర దా . యసు\nరేం . ద్ర మా .నో .\nరం . జ నా ...\nఅభి . నా .వపు\nరం.ధ రా . . వి\nఠ్ఠ . ల భ . ల్లరె\nరా.మ నా . . మ",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 M1 P D1 S'",
+  "avarohana": "S' D1 P M1 G3 R1 S",
+  "ragaPreset": "custom"
+}
