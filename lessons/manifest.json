@@ -124,5 +124,14 @@
     },
     "type": "geetham",
     "raga": "Malahari"
+  },
+  {
+    "file": "G4_Padumanabha.json",
+    "title": {
+      "en": "Geetham 4 - PADUMANABHA",
+      "te": "గీతం 4 - పదుమనాభ"
+    },
+    "type": "geetham",
+    "raga": "Malahari"
   }
 ]
