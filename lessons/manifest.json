@@ -142,5 +142,14 @@
     },
     "type": "geetham",
     "raga": "Shankarabharanam (29th Melakarta)"
+  },
+  {
+    "file": "G7_Aanalekara.json",
+    "title": {
+      "en": "Geetham - Aanaleekara",
+      "te": "గీతం - ఆనలేకర"
+    },
+    "type": "geetham",
+    "raga": "Shuddha Saveri (Janyam of 29th Melakarta Dheera Shankarabharanam)"
   }
 ]
