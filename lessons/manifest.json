@@ -99,6 +99,15 @@
     "raga": "Mayamalavagowla"
   },
   {
+    "file": "G10_Sakalasura.json",
+    "title": {
+      "en": "Geetham 10 - Sakalasura",
+      "te": "గీతం 10 - సకలసురా"
+    },
+    "type": "geetham",
+    "raga": "Gaula (Janyam of 15th Melakarta Mayamalavagowla)"
+  },
+  {
     "file": "G1_Sri_Gananatha.json",
     "title": {
       "en": "Geetham 1 - SRI GANANADHA",
@@ -160,5 +169,23 @@
     },
     "type": "geetham",
     "raga": "Shuddha Saveri (Janyam of 29th Melakarta Dheera Shankarabharanam)"
+  },
+  {
+    "file": "G8_KamalaJaadala.json",
+    "title": {
+      "en": "Geetham 8 - Kamala Jaadala",
+      "te": "గీతం 8 - కమలజాదళ"
+    },
+    "type": "geetham",
+    "raga": "Kalyani (65th Melakarta Raga)"
+  },
+  {
+    "file": "G9_Harihara Vinuta.json",
+    "title": {
+      "en": "Geetham 9 - Harihara Vinuta",
+      "te": "గీతం 9 - హరిహర వినుత"
+    },
+    "type": "geetham",
+    "raga": "Nata (Janyam of 36th Melakarta Chalanata)"
   }
 ]
