@@ -133,5 +133,14 @@
     },
     "type": "geetham",
     "raga": "Malahari"
+  },
+  {
+    "file": "G6_Govinda.json",
+    "title": {
+      "en": "Geetham 6 - GOVINDA",
+      "te": "గీతం 6 - గోవింద"
+    },
+    "type": "geetham",
+    "raga": "Shankarabharanam (29th Melakarta)"
   }
 ]
