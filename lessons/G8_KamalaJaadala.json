@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham 8 - Kamala Jaadala",
+    "te": "గీతం 8 - కమలజాదళ"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Kalyani (65th Melakarta Raga)",
+    "te": "కళ్యాణి (65వ మేళకర్త రాగం)"
+  },
+  "talaNames": {
+    "en": "Triputa Tala",
+    "te": "త్రిపుట తాళం"
+  },
+  "tala": "triputa",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "su su su n d n su\nndpdpmp\ngmppddn\ndpmpgrs\ndldldlggg,\nmp,mgrs\nr,,s,,,\ngmpmpdp\nndpdpmp\ngmppddn\ndpmpgrs\ndldldlggg,\nmp,mgrs\nr,,s,,,",
+  "sahitya": "కమల జా. దళ\nవిమల సున యన\nకరి వ రద కరు\nణాం.బు దే..వ\nకరుణశరరే.\nకమ.ల...\nకాం..తా...\nకం. స నరకా.\nసుర విభే.దన\nవరద వే.ళ.\nసురపురో.త్తమ \nకరుణశరరే.\nకమ.ల...\nకాం..తా...",
+  "selectedSthanas": {
+    "R": "R2",
+    "G": "G3",
+    "M": "M2",
+    "D": "D2",
+    "N": "N3"
+  },
+  "arohana": "S R2 G3 M2 P D2 N3 S",
+  "avarohana": "S N3 D2 P M2 G3 R2 S",
+  "ragaPreset": "custom"
+}

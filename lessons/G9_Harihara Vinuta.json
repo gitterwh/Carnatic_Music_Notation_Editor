@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham 9 - Harihara Vinuta",
+    "te": "గీతం 9 - హరిహర వినుత"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Nata (Janyam of 36th Melakarta Chalanata)",
+    "te": "నాట (36వ మేళకర్త చలననాట జన్య రాగం)"
+  },
+  "talaNames": {
+    "en": "Eka Tala",
+    "te": " ఏక తాళం"
+  },
+  "tala": "eka",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "ssnp\npmgm\npsusun\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\ndnsuru\nsusuru,\nsusunp\nmmrs\nmmmr\nrrss\nn,pm\np,p,\npsusun\npnpm\ngmpn\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\nmmrs",
+  "sahitya": "హరిహర \nవిను.త\nఅమరపు\nజితురే.\nవా.మన \nరూ..ప\nఏ..క\nదం..త\nచతురు. \nభుజయ.\nలం.బో. \nదరురే.\nసకల సి\n.ద్ధిఫల\nదా.యకు\nరే.రే.\nపా.శాం.\nకుశ ధర \nదిశా.ను \nధరురే.\nవా.మన \nరూ..ప\nఏ..క\nదం..త\nచతురు. \nభుజయ.\nలం.బో. \nదరురే.\n",
+  "selectedSthanas": {
+    "R": "R3",
+    "G": "G3",
+    "M": "M1",
+    "D": "D3",
+    "N": "N3"
+  },
+  "arohana": "S R3 G3 M1 P D3 N3 S",
+  "avarohana": "S N3 P M1 R3 S",
+  "ragaPreset": "custom"
+}
