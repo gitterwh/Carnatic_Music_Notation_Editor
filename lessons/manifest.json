@@ -135,6 +135,15 @@
     "raga": "Malahari"
   },
   {
+    "file": "G5_Varaveena.json",
+    "title": {
+      "en": "Geetham 5 - VARAVEENA",
+      "te": "గీతం 5 - వరవీణ"
+    },
+    "type": "geetham",
+    "raga": "Mohana"
+  },
+  {
     "file": "G6_Govinda.json",
     "title": {
       "en": "Geetham 6 - GOVINDA",
