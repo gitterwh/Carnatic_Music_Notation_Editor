@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham - Aanaleekara",
+    "te": "గీతం - ఆనలేకర"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Shuddha Saveri (Janyam of 29th Melakarta Dheera Shankarabharanam)",
+    "te": "శుద్ధసావేరి \"శుద్ధసావేరి (29వ మేళకర్త ధీర శంకరాభరణ జన్య రాగం)"
+  },
+  "talaNames": {
+    "en": "Triputa Tala",
+    "te": "త్రిపుట తాళం"
+  },
+  "tala": "triputa",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "ru mu ru ru su d su\nsu,sudpmp\nddsud,dp\npmrdddp\np,pdddp\np,pmpdp\npmrsrsr\npmpsrsr\nppdppmr\nrsrm,m,\ndpdsu,su,\nrurusudpmp\nddsud,dp\npmrdddp\np,pdddp\np,pmpdp\npmrsrsr\npmpsrsr\nppdppmr\nrsrm,m,\ndpdsu,su,",
+  "sahitya": "ఆ.న లే. కర\nఊ .న్ని బౌ. లతి\nసకల శా .స్త్రపు\nరా.ణ దీ.నం.\nతా.ళ దీ.నం.\nతా.ళ పరి గతు\nరే.రే ఆ...\nఆ......\n.......\nసే.తు వా. హ.\nపరి గ తం.నం.\nజటా. జూ. .ట\nసకల శా .స్త్రపు\nరా.ణ దీ.నం.\nతా.ళ దీ.నం.\nతా.ళ పరి గతు\nరే.రే ఆ...\nఆ......\n.......\nసే.తు వా. హ.\nపరి గ తం.నం.",
+  "selectedSthanas": {
+    "R": "R2",
+    "G": "G2",
+    "M": "M1",
+    "D": "D2",
+    "N": "N2"
+  },
+  "arohana": "S R2 M1 P D2 S",
+  "avarohana": "S D2 P M1 R2 S",
+  "ragaPreset": "custom"
+}
