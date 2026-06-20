@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Geetham 3 - KERAYA NEERANU",
+    "te": "గీతం 3 - కెరయ నీరను"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Malahari",
+    "te": "మలహరి"
+  },
+  "talaNames": {
+    "en": "Triputa Tala",
+    "te": "త్రిపుట తాళం"
+  },
+  "tala": "triputa",
+  "compType": "geetham",
+  "lang": "te",
+  "swaras": "dsusudpmp\nddsudpmp\nddsdpmp\nddpmgrs\nsrrsrsr\nddpmgrs\ndpdsu,dp\nddpmgrs\ndsusudpmp\nddsudpmp\nddsdpmp\nddpmgrs\nsrrsrsr\nddpmgrs\ndpdsu,dp\nddpmgrs",
+  "sahitya": "కెరయ నీ.రను\nకెరెగె చ.ల్లీ\nవరివ పడెదవ\nరం.తె కా.ణిరొ\nహరియ కరుణదొ\nళా.ద భాగ్యవ\nహరిస మా.ర్పణె\nమా.డి బదుకిరొ\nశ్రీ.పు రం. ధర\nవిఠ్ఠల రాయ.\nచరణ కమలవ\nనొ.డి బదుకిరొ\nహరియ కరుణదొ\nళా.ద భా.గ్యవ\nహరిస మా.ర్పణె\nమా.డి బదుకిరొ",
+  "selectedSthanas": {
+    "R": "R1",
+    "G": "G3",
+    "M": "M1",
+    "D": "D1",
+    "N": "N3"
+  },
+  "arohana": "S R1 M1 P D1 S'",
+  "avarohana": "S' D1 P M1 G3 R1 S",
+  "ragaPreset": "custom"
+}
