@@ -183,7 +183,7 @@
             '\u0C15': 'ka', '\u0C16': 'kha', '\u0C17': 'ga', '\u0C18': 'gha', '\u0C19': 'gna', '\u0C1A': 'ca', '\u0C1B': 'cha', '\u0C1C': 'ja', '\u0C1D': 'jha', '\u0C1E': 'nya',
             '\u0C1F': 'ta', '\u0C20': 'tha', '\u0C21': 'da', '\u0C22': 'dha', '\u0C23': 'na', '\u0C24': 'tha', '\u0C25': 'thha', '\u0C26': 'da', '\u0C27': 'dha', '\u0C28': 'na',
             '\u0C2A': 'pa', '\u0C2B': 'pha', '\u0C2C': 'ba', '\u0C2D': 'bha', '\u0C2E': 'ma', '\u0C2F': 'ya', '\u0C30': 'ra', '\u0C31': 'ra', '\u0C32': 'la', '\u0C33': 'la', '\u0C34': 'lla', '\u0C35': 'va', '\u0C36': 'sha', '\u0C37': 'sha', '\u0C38': 'sa', '\u0C39': 'ha',
-            '\u0C3E': 'aa', '\u0C3F': 'i', '\u0C40': 'ii', '\u0C41': 'u', '\u0C42': 'uu', '\u0C43': 'ru', '\u0C46': 'e', '\u0C47': 'ee', '\u0C48': 'ai', '\u0C4A': 'o', '\u0C4B': 'oo', '\u0C4C': 'au', '\u0C4D': '', '\u0C01': 'm', '\u0C02': 'm', '\u0C03': 'h'
+            '\u0C3E': 'aa', '\u0C3F': 'i', '\u0C40': 'ii', '\u0C41': 'u', '\u0C42': 'uu', '\u0C43': 'ru', '\u0C46': 'e', '\u0C47': 'ee', '\u0C48': 'ai', '\u0C4A': 'o', '\u0C4B': 'oo', '\u0C4C': 'au', '\u0C4D': '', '\u0C01': '', '\u0C02': '', '\u0C03': 'h'
         };
         const scriptMap = { en: { s: "S", r: "R", g: "G", m: "M", p: "P", d: "D", n: "N", comma: ",", semicolon: ";" }, te: { s: "స", r: "రి", g: "గ", m: "మ", p: "ప", d: "ద", n: "ని", comma: ",", semicolon: ";" } };
         const normalizationMap = { "స": "s", "రి": "r", "గ": "g", "మ": "m", "ప": "p", "ద": "d", "ని": "n", "న": "n", "s": "s", "r": "r", "g": "g", "m": "m", "p": "p", "d": "d", "n": "n" };
@@ -336,9 +336,52 @@
             if (isSwara && trimmed.startsWith('<')) return [trimmed];
             
             if (!isSwara) {
-                // Expanded Tokenizer: Matches Telugu Aksharas, English words, numbers, or periods
-                const teluguRegex = /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]/g;
-                return trimmed.match(teluguRegex) || [];
+                const tokens = [];
+                const chunks = trimmed.split(/\s+/).filter(Boolean);
+                chunks.forEach(chunk => {
+                    let i = 0;
+                    while (i < chunk.length) {
+                        const char = chunk[i];
+                        if (char === '.' || char === ',' || char === ';' || char === ':') {
+                            tokens.push(char);
+                            i += 1;
+                            continue;
+                        }
+                        if (/[a-zA-Z0-9\u0027]/.test(char)) {
+                            tokens.push(char);
+                            i += 1;
+                            continue;
+                        }
+                        if (/[\u0C15-\u0C39]/.test(char)) {
+                            let syllable = char;
+                            let j = i + 1;
+                            while (j < chunk.length) {
+                                const next = chunk[j];
+                                if (next === '.' || next === ',' || next === ';' || next === ':') break;
+                                if (/[\u0C3E-\u0C4C]/.test(next)) {
+                                    syllable += next;
+                                    j += 1;
+                                    break;
+                                }
+                                if (next === '\u0C4D') {
+                                    syllable += next;
+                                    j += 1;
+                                    continue;
+                                }
+                                if (/[\u0C15-\u0C39]/.test(next)) {
+                                    break;
+                                }
+                                break;
+                            }
+                            tokens.push(syllable);
+                            i = j;
+                            continue;
+                        }
+                        tokens.push(char);
+                        i += 1;
+                    }
+                });
+                return tokens;
             }
 
             let tokens = trimmed.split(/\s+/).flatMap(w => w.match(/qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g) || [w]);
@@ -355,21 +398,65 @@
 
         function transliterateTeluguToEnglish(token) {
             if (!token || token === '.') return "";
-            if (/^[a-zA-Z0-9\u0027]+$/.test(token)) return token;
+            const normalizedToken = String(token).trim();
+            if (!normalizedToken) return "";
+            if (/^[a-zA-Z0-9\u0027]+$/.test(normalizedToken)) return normalizedToken;
+
             let res = "";
-            for (let i = 0; i < token.length; i++) {
-                let char = token[i];
-                let mapped = teluguToEnglishMap[char] || "";
-                if (char === '\u0C4D') {
-                    if (res.endsWith('a')) res = res.slice(0, -1);
-                } else if (mapped) {
-                    if (res.endsWith('a') && "aeiouāīūēō".includes(mapped[0]) && i > 0) {
-                        res = res.slice(0, -1) + mapped;
-                    } else res += mapped;
+            for (let i = 0; i < normalizedToken.length; i++) {
+                const char = normalizedToken[i];
+                const prevChar = normalizedToken[i - 1];
+                const nextChar = normalizedToken[i + 1];
+                const mapped = teluguToEnglishMap[char] || "";
+                const isConsonant = /[\u0C15-\u0C39]/.test(char);
+                const isVowelSign = /[\u0C3E-\u0C4C]/.test(char);
+                const isIndependentVowel = /[\u0C05-\u0C14]/.test(char);
+                const prevWasVowelSign = /[\u0C3E-\u0C4C]/.test(prevChar || "");
+
+                if (char === '.') { res += '.'; continue; }
+                if (char === '\u0C4D') continue;
+                if (char === '\u0C02') { res += prevWasVowelSign ? 'n' : 'm'; continue; }
+                if (char === '\u0C01' || char === '\u0C03') { res += 'h'; continue; }
+
+                if (isIndependentVowel) {
+                    res += mapped || "";
+                    continue;
                 }
+
+                if (isVowelSign) {
+                    const vowelValue = mapped === 'o' ? 'ō' : (mapped === 'oo' ? 'ō' : mapped);
+                    if (vowelValue && res.endsWith('a')) {
+                        res = res.slice(0, -1) + vowelValue;
+                    } else if (vowelValue) {
+                        res += vowelValue;
+                    }
+                    continue;
+                }
+
+                if (isConsonant) {
+                    if (nextChar && /[\u0C3E-\u0C4C]/.test(nextChar)) {
+                        const vowelValue = teluguToEnglishMap[nextChar] || "";
+                        const normalizedVowel = vowelValue === 'o' ? 'ō' : (vowelValue === 'oo' ? 'ō' : vowelValue);
+                        const base = mapped ? mapped.slice(0, -1) : "";
+                        res += base + normalizedVowel;
+                        i += 1;
+                    } else {
+                        res += mapped || "";
+                    }
+                    continue;
+                }
+
+                if (mapped) res += mapped;
                 else res += char;
             }
-            return res.replace(/aa/g, 'ā').replace(/ii/g, 'ī').replace(/uu/g, 'ū').replace(/ee/g, 'ē').replace(/oo/g, 'ō');
+
+            return res
+                .replace(/aa/g, 'ā')
+                .replace(/ii/g, 'ī')
+                .replace(/uu/g, 'ū')
+                .replace(/ee/g, 'ē')
+                .replace(/oo/g, 'ō')
+                .replace(/o/g, 'ō');
         }
 
         function getAtomicCount(beatBlock) {
