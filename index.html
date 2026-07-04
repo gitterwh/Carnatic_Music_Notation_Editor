@@ -217,12 +217,20 @@
         }
 
         function setLanguage(lang) {
-            currentLanguage = lang;
-            document.getElementById('lang-en').className = lang === 'en' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
-            document.getElementById('lang-te').className = lang === 'te' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
-            renderCategories();
-            if (currentData) render();
-        }
+    currentLanguage = lang;
+    // Update button visual states
+    document.getElementById('lang-en').className = lang === 'en' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
+    document.getElementById('lang-te').className = lang === 'te' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
+
+    // Only re-render the active view instead of forcing a reset
+    if (currentData) {
+        render(); // Re-renders the current lesson
+    } else {
+        renderCategories(); // Fallback if no lesson is loaded
+    }
+}
+        
+        
 
         function transliterateSwara(atom) {
             if (!atom) return scriptMap[currentLanguage].comma;
