@@ -42,13 +42,12 @@
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showView('categories')">
                 <span class="text-2xl">🎻</span>
-                <h1 class="text-lg font-bold tracking-tight">Carnatic Studio Viewer</h1>
+                <h1 id="appTitle" class="text-lg font-bold tracking-tight">Carnatic Studio Viewer</h1>
             </div>
-            
             <div class="flex items-center gap-2 w-full md:w-auto">
                 <div class="flex bg-slate-100 p-1 rounded-lg">
-                    <button onclick="setLanguage('en')" id="lang-en" class="px-3 py-1 rounded-md text-xs font-bold transition">EN</button>
-                    <button onclick="setLanguage('te')" id="lang-te" class="px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm">తె</button>
+                    <button type="button" onclick="event.stopPropagation(); setLanguage('en')" id="lang-en" class="px-3 py-1 rounded-md text-xs font-bold transition">EN</button>
+                    <button type="button" onclick="event.stopPropagation(); setLanguage('te')" id="lang-te" class="px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm">తె</button>
                 </div>
                 <button onclick="window.print()" class="p-2 text-slate-400 hover:text-indigo-600 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
@@ -62,8 +61,8 @@
         <!-- View 1: Categories -->
         <div id="view-categories" class="space-y-8 py-10">
             <div class="text-center space-y-2">
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Vidyalayam Library</h2>
-                <p class="text-slate-500">Select the type of composition you want to practice</p>
+                <h2 id="heroTitle" class="text-3xl font-black text-slate-800 tracking-tight">Vidyalayam Library</h2>
+                <p id="heroSubtitle" class="text-slate-500">Select the type of composition you want to practice</p>
             </div>
             <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Dynamic Categories will appear here -->
@@ -72,7 +71,7 @@
 
         <!-- View 2: Lesson List -->
         <div id="view-lessons" class="hidden space-y-6">
-            <button onclick="showView('categories')" class="flex items-center gap-2 text-indigo-600 font-bold text-sm hover:underline">
+            <button id="backToCategoriesBtn" onclick="showView('categories')" class="flex items-center gap-2 text-indigo-600 font-bold text-sm hover:underline">
                 ← Back to Categories
             </button>
             <h2 id="currentCategoryTitle" class="text-2xl font-black text-slate-800 uppercase tracking-wide"></h2>
@@ -83,7 +82,7 @@
 
         <!-- View 3: Notation Viewer -->
         <div id="view-viewer" class="hidden bg-white shadow-xl rounded-3xl p-2 md:p-12 print-sheet relative preview-content-container">
-            <button onclick="showView('lessons')" class="no-print flex items-center gap-2 text-slate-400 font-bold text-xs hover:text-indigo-600 mb-6 md:absolute md:top-10 md:left-10 md:mb-0">
+            <button id="closeLessonBtn" onclick="showView('lessons')" class="no-print flex items-center gap-2 text-slate-400 font-bold text-xs hover:text-indigo-600 mb-6 md:absolute md:top-10 md:left-10 md:mb-0">
                 ← Close Lesson
             </button>
             <div class="border-b-4 border-slate-900 pb-3 md:pb-6 mb-4 md:mb-8 text-center space-y-2 md:space-y-3">
@@ -107,9 +106,62 @@
     </main>
 
     <script>
-        let currentLanguage = 'te';
+        const LANGUAGE_STORAGE_KEY = 'carnaticViewerLanguage';
+        const uiPageText = {
+            en: {
+                appTitle: 'Carnatic Studio Viewer',
+                heroTitle: 'Vidyalayam Library',
+                heroSubtitle: 'Select the type of composition you want to practice',
+                backToCategories: '← Back to Categories',
+                closeLesson: '← Close Lesson',
+                lessonsCountLabel: 'LESSONS'
+            },
+            te: {
+                appTitle: 'కర్నాటిక్ స్టూడియో విజియర్',
+                heroTitle: 'విద్యాలయం లైబ్రరీ',
+                heroSubtitle: 'మీరు అభ్యసించాలనుకుంటున్న కూర్పు రకాన్ని ఎంచుకోండి',
+                backToCategories: '← వర్గాలకు తిరిగి వెళ్ళు',
+                closeLesson: '← పాఠాన్ని మూసివేయి',
+                lessonsCountLabel: 'పాఠాలు'
+            }
+        };
+
+        let currentLanguage = getStoredLanguage('te');
         let currentData = null;
         let lessonManifest = [];
+        let currentCategory = null;
+        let currentLessonFile = null;
+        let currentView = 'categories';
+
+        function getStoredLanguage(defaultLang = 'te') {
+            const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+            return stored === 'en' || stored === 'te' ? stored : defaultLang;
+        }
+
+        function persistLanguage(lang) {
+            localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+        }
+
+        function updateLanguageButtons(lang) {
+            const baseClass = 'px-3 py-1 rounded-md text-xs font-bold transition';
+            document.getElementById('lang-en').className = lang === 'en' ? `${baseClass} bg-white shadow-sm` : baseClass;
+            document.getElementById('lang-te').className = lang === 'te' ? `${baseClass} bg-white shadow-sm` : baseClass;
+        }
+
+        function applyPageTranslations(lang) {
+            const pack = uiPageText[lang];
+            const appTitle = document.getElementById('appTitle');
+            const heroTitle = document.getElementById('heroTitle');
+            const heroSubtitle = document.getElementById('heroSubtitle');
+            const backBtn = document.getElementById('backToCategoriesBtn');
+            const closeBtn = document.getElementById('closeLessonBtn');
+            if (appTitle) appTitle.innerText = pack.appTitle;
+            if (heroTitle) heroTitle.innerText = pack.heroTitle;
+            if (heroSubtitle) heroSubtitle.innerText = pack.heroSubtitle;
+            if (backBtn) backBtn.innerHTML = `${pack.backToCategories}`;
+            if (closeBtn) closeBtn.innerHTML = `${pack.closeLesson}`;
+            document.documentElement.lang = lang;
+        }
 
         const categoryMeta = {
             exercise: { icon: "🥁", color: "bg-indigo-50", text: { en: "Exercises", te: "అభ్యాసాలు" } },
@@ -138,6 +190,10 @@
         const talaBlueprints = { adi: { beats: 8, bars: [4, 6] }, varna_adi: { beats: 32, bars: [16, 24] }, adi_double: { beats: 16, bars: [4, 6, 8, 12, 14] }, dhruva: { beats: 14, bars: [4, 6, 10] }, matya: { beats: 10, bars: [4, 6] }, rupaka: { beats: 6, bars: [2] }, jhampa: { beats: 10, bars: [7, 8] }, triputa: { beats: 7, bars: [3, 5] }, ata: { beats: 14, bars: [5, 10] }, eka: { beats: 4, bars: [] } };
 
         window.onload = async () => {
+            currentLanguage = getStoredLanguage('te');
+            updateLanguageButtons(currentLanguage);
+            applyPageTranslations(currentLanguage);
+
             const grid = document.getElementById('categoryGrid');
             grid.innerHTML = `<div class="col-span-full py-20 text-slate-400 font-bold animate-pulse">${structuralLabels[currentLanguage].loading}</div>`;
             
@@ -155,6 +211,7 @@
         };
 
         function showView(viewId) {
+            currentView = viewId;
             document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
             document.getElementById(`view-${viewId}`).classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -163,6 +220,7 @@
         function renderCategories() {
             const grid = document.getElementById('categoryGrid');
             grid.innerHTML = '';
+            const pack = uiPageText[currentLanguage];
             Object.keys(categoryMeta).forEach(cat => {
                 const lessons = lessonManifest.filter(l => l.type === cat);
                 if (lessons.length === 0) return; // Hide empty categories
@@ -175,7 +233,7 @@
                 div.innerHTML = `
                     <div class="text-4xl">${meta.icon}</div>
                     <div class="text-xl font-black text-slate-800">${meta.text[currentLanguage]}</div>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-tighter">${count} LESSONS</div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-tighter">${count} ${pack.lessonsCountLabel}</div>
                 `;
                 grid.appendChild(div);
             });
@@ -183,6 +241,7 @@
         }
 
         function showLessonsInCategory(cat) {
+            currentCategory = cat;
             const grid = document.getElementById('lessonGrid');
             grid.innerHTML = '';
             const filtered = lessonManifest.filter(l => l.type === cat);
@@ -206,6 +265,7 @@
         }
 
         async function loadLesson(fileName) {
+            currentLessonFile = fileName;
             try {
                 const response = await fetch(`./lessons/${fileName}`);
                 currentData = await response.json();
@@ -217,18 +277,32 @@
         }
 
         function setLanguage(lang) {
-    currentLanguage = lang;
-    // Update button visual states
-    document.getElementById('lang-en').className = lang === 'en' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
-    document.getElementById('lang-te').className = lang === 'te' ? 'px-3 py-1 rounded-md text-xs font-bold transition bg-white shadow-sm' : 'px-3 py-1 rounded-md text-xs font-bold transition';
+            currentLanguage = lang;
+            persistLanguage(lang);
+            updateLanguageButtons(lang);
+            applyPageTranslations(lang);
 
-    // Only re-render the active view instead of forcing a reset
-    if (currentData) {
-        render(); // Re-renders the current lesson
-    } else {
-        renderCategories(); // Fallback if no lesson is loaded
-    }
-}
+            if (currentView === 'viewer') {
+                if (currentData) {
+                    render();
+                } else if (currentLessonFile) {
+                    loadLesson(currentLessonFile).catch(() => {});
+                }
+                return;
+            }
+
+            if (currentView === 'lessons' && currentCategory) {
+                showLessonsInCategory(currentCategory);
+                return;
+            }
+
+            if (currentView === 'categories') {
+                renderCategories();
+                return;
+            }
+
+            showView(currentView);
+        }
         
         
 

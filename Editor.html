@@ -323,7 +323,18 @@
     </div>
 
     <script>
-        let currentLanguage = 'te';
+        const LANGUAGE_STORAGE_KEY = 'carnaticViewerLanguage';
+
+        function getStoredLanguage(defaultLang = 'te') {
+            const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+            return stored === 'en' || stored === 'te' ? stored : defaultLang;
+        }
+
+        function persistLanguage(lang) {
+            localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+        }
+
+        let currentLanguage = getStoredLanguage('te');
         
         let editorMode = 'metadata';
         function setEditorMode(mode) {
@@ -620,6 +631,8 @@
         function setLanguage(lang) {
             syncInputsToVars();
             currentLanguage = lang;
+            persistLanguage(lang);
+            document.documentElement.lang = lang;
             ['en', 'te'].forEach(l => {
                 const btn = document.getElementById(`lang-${l}`);
                 if (btn) btn.className = l === lang ? "py-1.5 px-3 rounded-lg border text-xs font-medium bg-slate-800 text-white border-slate-800 cursor-pointer" : "py-1.5 px-3 rounded-lg border text-xs font-medium bg-white text-slate-700 border-slate-200 cursor-pointer";
