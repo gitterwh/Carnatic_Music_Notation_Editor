@@ -777,6 +777,32 @@
             return content;
         }
 
+        function tokenizeLineData(raw, isSwara) {
+            let trimmed = raw.trim(); if (!trimmed) return [];
+            if (isSwara && trimmed.startsWith('<')) return [trimmed];
+            
+            if (!isSwara) {
+                const teluguRegex = /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]|./g;
+                const tokens = [];
+                trimmed.split(/\s+/).forEach(chunk => {
+                    const matches = chunk.match(teluguRegex);
+                    if (matches) tokens.push(...matches);
+                });
+                return tokens;
+            }
+
+            let tokens = trimmed.split(/\s+/).flatMap(w => w.match(/qlll|qll|ql|[srgmpdnSRGMPDN\u0C15-\u0C4D][\'\* \.bBuUlL]?|[\u0C00-\u0C7F]+|[,;\-_bBcC]/g) || [w]);
+            let grouped = [], current = [], inSpeed = false;
+            tokens.forEach(t => {
+                if (['ql','qll','qlll'].includes(t)) { inSpeed = true; current.push(t); }
+                else if (t === 'e') { current.push(t); grouped.push(current.join(' ')); current = []; inSpeed = false; }
+                else if (inSpeed) current.push(t);
+                else if (t === 'b') { if (grouped.length > 0) grouped[grouped.length-1] += ' b'; else grouped.push('b'); }
+                else grouped.push(t);
+            });
+            return grouped;
+        }
+
         function transliterateTeluguToEnglish(token) {
             if (!token || token === '.') return "";
             const normalizedToken = String(token).trim();
@@ -821,6 +847,9 @@
                         const base = mapped ? mapped.slice(0, -1) : "";
                         res += base + normalizedVowel;
                         i += 1;
+                    } else if (nextChar === '\u0C4D') {
+                        const base = mapped ? mapped.slice(0, -1) : "";
+                        res += base;
                     } else {
                         res += mapped || "";
                     }

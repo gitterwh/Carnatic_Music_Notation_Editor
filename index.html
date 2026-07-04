@@ -336,50 +336,11 @@
             if (isSwara && trimmed.startsWith('<')) return [trimmed];
             
             if (!isSwara) {
+                const teluguRegex = /[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*(?:\u0C4D[\u0C00-\u0C7F][\u0C3E-\u0C4C\u0C55\u0C56\u0C01-\u0C03]*)*|[a-zA-Z0-9\u0027]+|[,.c]|./g;
                 const tokens = [];
-                const chunks = trimmed.split(/\s+/).filter(Boolean);
-                chunks.forEach(chunk => {
-                    let i = 0;
-                    while (i < chunk.length) {
-                        const char = chunk[i];
-                        if (char === '.' || char === ',' || char === ';' || char === ':') {
-                            tokens.push(char);
-                            i += 1;
-                            continue;
-                        }
-                        if (/[a-zA-Z0-9\u0027]/.test(char)) {
-                            tokens.push(char);
-                            i += 1;
-                            continue;
-                        }
-                        if (/[\u0C15-\u0C39]/.test(char)) {
-                            let syllable = char;
-                            let j = i + 1;
-                            while (j < chunk.length) {
-                                const next = chunk[j];
-                                if (next === '.' || next === ',' || next === ';' || next === ':') break;
-                                if (/[\u0C3E-\u0C4C]/.test(next)) {
-                                    syllable += next;
-                                    j += 1;
-                                    break;
-                                }
-                                if (next === '\u0C4D') {
-                                    syllable += next;
-                                    j += 1;
-                                    continue;
-                                }
-                                if (/[\u0C15-\u0C39]/.test(next)) {
-                                    break;
-                                }
-                                break;
-                            }
-                            tokens.push(syllable);
-                            i = j;
-                            continue;
-                        }
-                        tokens.push(char);
-                        i += 1;
-                    }
+                trimmed.split(/\s+/).forEach(chunk => {
+                    const matches = chunk.match(teluguRegex);
+                    if (matches) tokens.push(...matches);
                 });
                 return tokens;
             }
@@ -440,6 +401,9 @@
                         const base = mapped ? mapped.slice(0, -1) : "";
                         res += base + normalizedVowel;
                         i += 1;
+                    } else if (nextChar === '\u0C4D') {
+                        const base = mapped ? mapped.slice(0, -1) : "";
+                        res += base;
                     } else {
                         res += mapped || "";
                     }
