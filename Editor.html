@@ -803,6 +803,22 @@
             return grouped;
         }
 
+        function transliterateScale(str) {
+    if (!str) return "";
+    return str.split(/\s+/).filter(t => t.trim() !== "").map(token => {
+        let cleaner = token.trim();
+        let isLower = cleaner.startsWith('.') || cleaner.endsWith('.') || cleaner.toLowerCase().endsWith('l');
+        let isUpper = cleaner.includes("'") || cleaner.includes('*') || cleaner.toLowerCase().endsWith('u');
+        let letter = (cleaner.match(/[srgmpdnSRGMPDN]/i) || [""])[0].toLowerCase();
+        if (!letter) return cleaner;
+        let mapped = scriptMap[currentLanguage][normalizationMap[letter] || letter] || letter;
+        let res = cleaner.replace(/[srgmpdnSRGMPDN]/i, mapped).replace(/[\.\*\'uUlL]/g, '');
+        if (isLower) return `<span class="lower-octave">${res}</span>`;
+        if (isUpper) return `<span class="upper-octave">${res}</span>`;
+        return `<span>${res}</span>`;
+    }).join(' ');
+}
+
         function transliterateTeluguToEnglish(token) {
             if (!token || token === '.') return "";
             const normalizedToken = String(token).trim();
