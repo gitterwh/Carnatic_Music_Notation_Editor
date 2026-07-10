@@ -18,7 +18,7 @@
   "tala": "eka",
   "compType": "geetham",
   "lang": "te",
-  "swaras": "ssnp\npmgm\npsusun\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\ndnsuru\nsusuru,\nsusunp\nmmrs\nmmmr\nrrss\nn,pm\np,p,\npsusun\npnpm\ngmpn\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\ndnsuru\nsusuru,\nsusunp\nmmrs \n",
+  "swaras": "susunp\npmgm\npsusun\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\ndnsuru\nsusuru,\nsusunp\nmmrs\nmmmr\nrrss\nn,pm\np,p,\npsusun\npnpm\ngmpn\npsusu,\nsumumumu\nrugumupu\nmumurusu\nsusunp\ndnsuru\nsusuru,\nsusunp\nmmrs \n",
   "sahitya": "హరిహర \nవిను.త\nఅమరపు\nజితురే.\nవా.మన \nరూ..ప\nఏ..క\nదం..త\nచతురు. \nభుజయ.\nలం.బో. \nదరురే.\nసకల సి\n.ద్ధిఫల\nదా.యకు\nరే.రే.\nపా.శాం.\nకుశ ధర \nదిశా.ను \nధరురే.\nవా.మన \nరూ..ప\nఏ..క\nదం..త\nచతురు. \nభుజయ.\nలం.బో. \nదరురే.\n",
   "selectedSthanas": {
     "R": "R3",
@@ -27,7 +27,7 @@
     "D": "D3",
     "N": "N3"
   },
-  "arohana": "S R3 G3 M1 P D3 N3 S",
-  "avarohana": "S N3 P M1 R3 S",
+  "arohana": "S R3 G3 M1 P D3 N3 S'",
+  "avarohana": "S' N3 P M1 R3 S",
   "ragaPreset": "custom"
 }
