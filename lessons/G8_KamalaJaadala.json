@@ -27,7 +27,7 @@
     "D": "D2",
     "N": "N3"
   },
-  "arohana": "S R2 G3 M2 P D2 N3 S",
-  "avarohana": "S N3 D2 P M2 G3 R2 S",
+  "arohana": "S R2 G3 M2 P D2 N3 S'",
+  "avarohana": "S' N3 D2 P M2 G3 R2 S",
   "ragaPreset": "custom"
 }
