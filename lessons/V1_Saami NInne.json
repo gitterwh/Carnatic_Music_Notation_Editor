@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Varnam 1 - Saami Ninne",
+    "te": "వర్ణం 1 - సామి నిన్నే"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Shankarabharanam (29th Melakarta)",
+    "te": "శంకరాభరణం (29వ మేళకర్త)"
+  },
+  "talaNames": {
+    "en": "Adi Tala",
+    "te": "ఆది తాళం"
+  },
+  "tala": "varna_adi",
+  "compType": "varnam",
+  "lang": "te",
+  "swaras": "<p>\nsu,,,nsudnp,mpg,m,p,dnp,dnsurusundpdn\nsu,sudpmp,pmgrsrgsnlpldlnls,pmgrgmp,dn\n<ap>\ns,ddpmdp,mgpg,mrgmpddpmpdnsunsu,rugu\nmugurususurusundpdnsurusu,sudpp,mgrsmgmp,dn\n<ms>\nsurunsudnsupdnsudpmpdmpgmprgmsrgmpdnsu\nrugumugurugurusunpdnsu,p,sundp,mgrsr,gmpdn\n<ch>\np,dnsusundpmgrg,m,p,md,psundpmgmrgm\n<chi 1>\np,,m,,p,,g,m,r,gs,,r,,n,,s,r,g,m\n<chi 2>\npd,pmgmp,mgmrg,rslnldlnlpldl,nlsr,nlsrgm\n<chi 3>\nm,dp mgm, pgmr gs,n smgr snldlnl srgm p,gm\npdnp dnsuru suguru, sundn su,run dp,d mgrs,rgm\n<chi 4>\np,mp gmrg s,mgrslnlpl dl,nlsrsnl, srgmp,dp\nsu,nru ,sumugu rugusu, npdn s,s, ndp, mgrs ,rgm",
+  "sahitya": "<p>\nసా.......మి. ని.....న్నే..... కో.......రి... \nచా.లా...మా.రు...లు..కో......న్న...ది.రా...\n<ap>\nతా......మ...స....ము.. సే..య.....క.. \nద..య..జూ...డ...రా. ..జగో....పా...లా...\n<>\n<>\n<ch>\nనీ....ర..జా.......క్షీ. నీ...పై.........\n<chi 1>\n\n\n",
+  "selectedSthanas": {
+    "R": "R2",
+    "G": "G3",
+    "M": "M1",
+    "D": "D2",
+    "N": "N3"
+  },
+  "arohana": "S R2 G3 M1 P D2 N3 S'",
+  "avarohana": "S' N3 D2 P M1 G3 R2 S",
+  "ragaPreset": "Sankarabharanam"
+}
