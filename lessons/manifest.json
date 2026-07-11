@@ -187,5 +187,14 @@
     },
     "type": "geetham",
     "raga": "Nata (Janyam of 36th Melakarta Chalanata)"
+  },
+  {
+    "file": "V1_Saami NInne.json",
+    "title": {
+      "en": "Varnam 1 - Saami Ninne",
+      "te": "వర్ణం 1 - సామి నిన్నే"
+    },
+    "type": "varnam",
+    "raga": "Shankarabharanam (29th Melakarta)"
   }
 ]
