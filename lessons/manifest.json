@@ -205,5 +205,14 @@
     },
     "type": "varnam",
     "raga": "Mohana (29th Melakarta Shankarabharanam Janyam))"
+  },
+  {
+    "file": "V3_Vanajakshi_Kalyani.json",
+    "title": {
+      "en": "Varnam 3 - Vanajakshi",
+      "te": "వర్ణం 3 - వనజాక్షి"
+    },
+    "type": "varnam",
+    "raga": "Kalyani (65th Melakarta Raga)"
   }
 ]
