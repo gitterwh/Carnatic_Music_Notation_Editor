@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Varnam 3 - Vanajakshi",
+    "te": "వర్ణం 3 - వనజాక్షి"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Kalyani (65th Melakarta Raga)",
+    "te": "కళ్యాణి (65వ మేళకర్త రాగం)"
+  },
+  "talaNames": {
+    "en": "Adi Tala",
+    "te": "ఆది తాళం"
+  },
+  "tala": "varna_adi",
+  "compType": "varnam",
+  "lang": "te",
+  "swaras": "<p>\nsusu,sundrusunnddpmgmpdndcrusundpmgmpdn\nsurugurusunsurusunrusundndncccccsundpmgmpdn\n<ap>\nP,mgnd,gdp,mgrsnlsrgm,,gmpg,mndnp\nDnsuru,surugusurugurusundndgurusundpndpmgmpdn\n<ms>\nSuru,nsundn,sundpmgrsrsp,md,pndrusunsundn\nDgurun,run,sud,npdnsu gurusu,ndp,mgrgmpdn\n<ch>\nN,,,,,sudsundpmgm,p,,,,,mpdnpdndrusu\n<chi 1>\nP,,,m,g,r,d,m,g,r,nl,s,r,g,m,,p,d\n<chi 2>\nP,dp,mgmpcmgcrsnlscrnlcsdlnlscrgcmpd\n<chi 3>\nn,,,,,surunsundndpmp,,dndpdpmpmgmpd\nnsungurugusurunsu,rusurunsudn,sundpmgmpd,nguru\n<chi 4>\nru,,,,,dgurusunpdnsurusu,,,,,sundpmg,mpd\nmcpdnp,dnsuru,sundnsun,dpmgmpdpnd,,,\ndnsururugugumugurusunsurusundsundsundpmg,m,p,d",
+  "sahitya": "<p>\nవన.జా..క్షి..రో....ఈ.వి..ర.హ..మో..ర్వ...నె \nవా.....సు...దే..వు..ని.....తో.డి..తే...వె\n<ap>\nవి....న...వే..నా.గ.పు..ర..ము..నా......\nవే..ల.యు..సౌం...ద...ర్య......రా...జు...ని\n<>\n<>\nని.....లు....ప.రా..ణి.....మో.హ..మా...యే",
+  "selectedSthanas": {
+    "R": "R2",
+    "G": "G3",
+    "M": "M2",
+    "D": "D2",
+    "N": "N3"
+  },
+  "arohana": "S R2 G3 M2 P D2 N3 S'",
+  "avarohana": "S' N3 D2 P M2 G3 R2 S",
+  "ragaPreset": "Kalyani"
+}
