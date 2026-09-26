@@ -1,0 +1,33 @@
+{
+  "titles": {
+    "en": "Varnam 4 - Jalajakshi",
+    "te": "వర్ణం 4 - జలజాక్షి"
+  },
+  "composers": {
+    "en": "",
+    "te": ""
+  },
+  "ragas": {
+    "en": "Hamsadhvani (Janyam of 29th Melakarta Dheera Shankarabharanam)",
+    "te": "హంసధ్వని (29వ మేళకర్త ధీరశంకరాభరణ జన్యం)"
+  },
+  "talaNames": {
+    "en": "Adi Tala",
+    "te": "ఆది తాళం"
+  },
+  "tala": "varna_adi",
+  "compType": "varnam",
+  "lang": "te",
+  "swaras": "<p>\ng,r,s,,,nlsrgrrsnlsrssnlplnlsrpl,n,s,r\ngrsnlsrplnlsrgpgnp,sunsru,sunppg,r,s,r\n<ap>\npgrsnlsr,g,rrssnlplnlsrg,sgrgp,nsu,,,\nrusunpnsurugusurugupugurusunruru,sunppg,rsnplnlsr\n<ms>\ng,rgrsr,nlsrgrrsnlr,nlgrnlsrplnlsrg,,p\ngrsr,gpnrgpnlsrgpplnlsr,gpnrgpnsu,,ru\nrusunp,ngurusun,pnsurugup,nsu,rugurupnsurugurunru\ngupugurusunsurusunpgrgpnguru,sunprusu,unpg,rsr\n<ch>\nn,,,,,su,ru,sunppgrg,,grsr,,rsnlsrgp\n<chi 1>\nn,,p,,g,,,r,s,nl,pl,,r,,nl,,s,r,g,p\n<chi 2>\nn,pgrsr,grsnlpl,rnl,grnlplnlsr,rgnlsrgp\n<chi 3>\nnpgrnlgrnlplnlplsnlrlsgrpgnpsunrungurunrunpg\npnsurugugpnsururgpnsungurusunprusunpgrnlsrgp\n<chi 4>\nsu,,,,,nrusunpgrsrgp,,,,,sunpgrsrgpn\nsuru,nrunpgpr,gpgrsrnl,grgpn,rgpnsu,,\nnpgp,rgpn,gpnsuru,pnsuru,gnsungururun,pn\ngurunsurupugu,rusunpnsuru,su,,p,,npgrsnlsrgp",
+  "sahitya": "<p>\nజ.ల.జా...క్ష...ని...న్నే.....డ..బా...సి..\nచా..లా..మా...రు.లు...కొ....న్న...ది...రా.. \n<ap>\nచె...లి...య.నే..ల..ర..వ.డే.....మిర...\nచె...లు...డై...న...శ్రీ..వేం..కటే....శ... \n<>\n<>\nనీ .....సా...టి.. దొ..ర.....నే. ...గా...న",
+  "selectedSthanas": {
+    "R": "R2",
+    "G": "G3",
+    "M": "",
+    "D": "",
+    "N": "N3"
+  },
+  "arohana": "S R2 G3 P N3 S'",
+  "avarohana": "S' N3 P G3 R2 S",
+  "ragaPreset": "custom"
+}
