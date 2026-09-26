@@ -196,5 +196,14 @@
     },
     "type": "varnam",
     "raga": "Shankarabharanam (29th Melakarta)"
+  },
+  {
+    "file": "V2_Ninnu Kori_Mohana.json",
+    "title": {
+      "en": "Varnam 2 - Ninnu Kori",
+      "te": "వర్ణం 2 - నిన్ను కోరి"
+    },
+    "type": "varnam",
+    "raga": "Mohana (29th Melakarta Shankarabharanam Janyam))"
   }
 ]
