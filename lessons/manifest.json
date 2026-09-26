@@ -214,5 +214,14 @@
     },
     "type": "varnam",
     "raga": "Kalyani (65th Melakarta Raga)"
+  },
+  {
+    "file": "V4_Jalajaksha_Hamsadhvani.json",
+    "title": {
+      "en": "Varnam 4 - Jalajakshi",
+      "te": "వర్ణం 4 - జలజాక్షి"
+    },
+    "type": "varnam",
+    "raga": "Hamsadhvani (Janyam of 29th Melakarta Dheera Shankarabharanam)"
   }
 ]
